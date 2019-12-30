@@ -38,7 +38,7 @@ interface vmItem {
 }
 
 interface nsItem {
-  publicIp: numbe;
+  publicIp: number;
   loadBAndWaf: number;
   netBandwithTb: number;
   archiveGb: number;
