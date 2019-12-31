@@ -1,14 +1,35 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button, Modal } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  Modal,
+  TouchableOpacity
+} from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
 
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
+  const [vmPrice, setVmPrice] = useState(0);
+  const [nsPrice, setNsPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   return (
     <View>
-      <VmList vmList={vmList} removeVm={removeVm} />
+      {vmList.map((item: vmItem, index: number) => (
+        <View key={index}>
+          <Text>
+            {item.os} - {item.item} - {item.backup} - {item.recovery} -{" "}
+            {item.qty} - {item.storage} GB {"  "}
+            <TouchableOpacity style={styles.removeButton} onPress={removeVm}>
+              <Text> Remove VM </Text>
+            </TouchableOpacity>
+          </Text>
+        </View>
+      ))}
       <NsList nsList={nsList} removeNs={removeNs} />
-      <Text>{prices.firstName}</Text>
+      <Text>{prices.exchangeStndard}</Text>
     </View>
   );
 };

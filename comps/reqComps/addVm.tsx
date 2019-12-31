@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Container, Header, Content, Form } from "native-base";
-import { Picker, PickerItem } from "./../uikit/picker";
+import { Picker, PickerItem } from ".././uikit/picker/picker.web.tsx";
 
 const osList = {
   CentOS: "CentOS",
