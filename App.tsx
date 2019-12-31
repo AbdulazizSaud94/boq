@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { Picker, PickerItem } from "./comps/uikit/picker";
 
 // const list = {
 //   win:'windows 2012',

@@ -4,5 +4,5 @@ import { View, Picker as PickerWeb, TouchableOpacity, StyleSheet } from "react-n
 
 
 
-export const Picker =  ({style, ...probs})=><View><PickerWeb style={[{backgroundColor:"#fff", borderWidth:0},style]} {...probs}/></View>
+export const Picker =  ({style, ...probs})=><View><PickerWeb style={[{backgroundColor:"#E3E2E2", borderWidth:1},style]} {...probs}/></View>
 export const PickerItem = PickerWeb.Item
