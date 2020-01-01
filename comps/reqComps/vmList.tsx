@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 
 const vmList = ({ vmList, removeVm }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -19,7 +20,7 @@ const vmList = ({ vmList, removeVm }) => {
             <Text>
               {item.os} - {item.item} - {item.backup} - {item.recovery} -{" "}
               {item.qty} - {item.storage} GB {"  "}
-              <TouchableOpacity style={styles.removeButton} onPress={removeVm}>
+              <TouchableOpacity style={styles.removeButton} onPress={()=>removeVm(index)}>
                 <Text> Remove VM </Text>
               </TouchableOpacity>
             </Text>

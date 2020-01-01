@@ -33,7 +33,7 @@ interface vmItem {
   storage: number;
   backup: string;
   recovery: string;
-  comments: string;
+  price: number;
 }
 
 interface nsItem {
@@ -60,7 +60,8 @@ export default function App() {
         recovery: v4,
         qty: v5,
         storage: v6,
-        comments: v7
+        price: v7,
+        
       }
     ]);
   };

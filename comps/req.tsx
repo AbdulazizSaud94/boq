@@ -17,14 +17,14 @@ import VmList from "./reqComps/vmList";
 import AddNS from "./reqComps/addNS";
 import NsList from "./reqComps/nsList";
 
-const req = ({ submitVm, vmList, removeVm, submitNs, nsList, removeNs }) => {
+const req = ({ submitVm, vmList, removeVm, submitNs, nsList, removeNs, prices }) => {
   const [catg, setCatg] = useState("Connectivity");
   const [item, setItem] = useState("GP-Medium (4 vCPU, 8GB Memory)");
   const [qty, setQty] = useState("0");
   return (
     <Container>
       {/* <Content> */}
-        <AddVm submitVm={submitVm} vmList={vmList} />
+        <AddVm submitVm={submitVm} vmList={vmList}  prices={prices} />
         <VmList vmList={vmList} removeVm={removeVm} />
         <View
           style={{
@@ -34,7 +34,7 @@ const req = ({ submitVm, vmList, removeVm, submitNs, nsList, removeNs }) => {
             marginBottom: 20
           }}
         />
-        <AddNS submitNs={submitNs} nsList={nsList} />
+        <AddNS submitNs={submitNs} nsList={nsList} prices={prices} />
         <NsList nsList={nsList} removeNs={removeNs} />
       {/* </Content> */}
     </Container>

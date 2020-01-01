@@ -3,8 +3,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://jj-uje.abdulazizsaud.boq.exp.direct",
   "packagerNgrokUrl": "https://packager.jj-uje.abdulazizsaud.boq.exp.direct",
-  "ngrokPid": 28550,
+  "ngrokPid": 4245,
   "devToolsPort": 19002,
-  "packagerPort": 19003,
-  "packagerPid": 28541
+  "packagerPort": 19001,
+  "packagerPid": 4236
 }

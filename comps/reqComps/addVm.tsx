@@ -6,7 +6,6 @@ import {
   TextInput,
   Button,
   Modal,
-  // Picker,
   TouchableHighlight,
   Alert,
   Platform,
@@ -34,24 +33,37 @@ const osList = {
 
 // }
 
-const addVm = ({ submitVm, vmList }) => {
+const addVm = ({ submitVm, vmList, prices }) => {
   const [os, setOs] = useState("CentOS");
-  const [item, setItem] = useState("GP-Large (8 vCPU, 16 GB Memory)");
+  const [item, setItem] = useState("GP_Large");
   const [backup, setBackup] = useState("Daily");
   const [recovery, setRecovery] = useState("Yes");
   const [qty, setQty] = useState(1);
   const [storage, setStorage] = useState(32);
-  const [comments, setComments] = useState("");
+
+  const calculatePrice = (
+    os: string,
+    item: string,
+    storage: number,
+    qty: number
+  ) => {
+    let fVmPrice: number = prices[os + item];
+    let fStorage: number = storage * prices.storage;
+    console.log("Storage >>>>>> " + fStorage);
+    let tPrice: number = (fVmPrice * qty).toFixed(2);
+    return tPrice;
+  };
 
   const validateAndSubmit = () => {
     let quantity: number = parseInt(qty, 10);
     let gbStorage: number = parseInt(storage, 10);
-    console.log("storage: " + gbStorage);
     //check quantity field
     if (qty > 0 && Number.isInteger(quantity)) {
       //Check storage field
       if (storage >= 32 && Number.isInteger(gbStorage)) {
-        submitVm(item, os, backup, recovery, quantity, gbStorage);
+        let price: number = calculatePrice(os, item, gbStorage, quantity);
+        console.log(price + ", " + os);
+        submitVm(item, os, backup, recovery, quantity, gbStorage, price);
       } else {
         alert("Please enter a valid storage");
       }
@@ -98,55 +110,53 @@ const addVm = ({ submitVm, vmList }) => {
               selectedValue={item}
               onValueChange={setItem}
             >
-              {os != "Windows 2016" &&
-                os != "Microsoft Windows Server 2012 R2" && (
-                  <PickerItem
-                    label="GP-Nano (1 vCPU, 0.5 GB Memory)"
-                    value="GP-Nano (1 vCPU, 0.5 GB Memory)"
-                  />
-                )}
-              {os != "Windows 2016" &&
-                os != "Microsoft Windows Server 2012 R2" && (
-                  <PickerItem
-                    label="GP-Micro (1 vCPU, 1 GB Memory)"
-                    value="GP-Micro (1 vCPU, 1 GB Memory)"
-                  />
-                )}
+              {os != "Windows16" && os != "Windows12" && (
+                <PickerItem
+                  label="GP-Nano (1 vCPU, 0.5 GB Memory)"
+                  value="GP_Nano"
+                />
+              )}
+              {os != "Windows16" && os != "Windows12" && (
+                <PickerItem
+                  label="GP-Micro (1 vCPU, 1 GB Memory)"
+                  value="GP_Micro"
+                />
+              )}
               <PickerItem
                 label="GP-Small (2 vCPU, 4 GB Memory)"
-                value="GP-Small (2 vCPU, 4 GB Memory)"
+                value="GP_Small"
               />
               <PickerItem
                 label="GP-Medium (4 vCPU, 8 GB Memory)"
-                value="GP-Medium (4 vCPU, 8 GB Memory)"
+                value="GP_Medium"
               />
               <PickerItem
                 label="GP-Large (8 vCPU, 16 GB Memory)"
-                value="GP-Large (8 vCPU, 16 GB Memory)"
+                value="GP_Large"
               />
               <PickerItem
                 label="GP-XLarge (16 vCPU, 32 GB Memory)"
-                value="GP-XLarge (16 vCPU, 32 GB Memory)"
+                value="GP_XLarge"
               />
               <PickerItem
                 label="MO-Large (16 vCPU, 64 GB Memory)"
-                value="MO-Large (16 vCPU, 64 GB Memory)"
+                value="MO_Large"
               />
               <PickerItem
                 label="MO-XLarge (16 vCPU, 128 GB Memory)"
-                value="MO-XLarge (16 vCPU, 128 GB Memory)"
+                value="MO_XLarge"
               />
               <PickerItem
                 label="CO-Large (32 vCPU, 64 GB Memory)"
-                value="CO-Large (32 vCPU, 64 GB Memory)"
+                value="CO_Large"
               />
               <PickerItem
                 label="CO-XLarge (64 vCPU, 128 GB Memory)"
-                value="CO-XLarge (64 vCPU, 128 GB Memory)"
+                value="CO_XLarge"
               />
               <PickerItem
                 label="CO-XXLarge (64 vCPU, 256 GB Memory)"
-                value="CO-XXLarge (64 vCPU, 256 GB Memory)"
+                value="CO_XXLarge"
               />
             </Picker>
           </View>
