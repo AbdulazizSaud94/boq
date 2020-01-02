@@ -42,6 +42,7 @@ interface nsItem {
   netBandwithTb: number;
   archiveGb: number;
   fileShareGb: number;
+  price: number;
 }
 export default function App() {
   const [vmList, addVm] = useState([]);
@@ -66,7 +67,7 @@ export default function App() {
     ]);
   };
 
-  const submitNs = (v1, v2, v3, v4, v5) => {
+  const submitNs = (v1, v2, v3, v4, v5, v6) => {
     addNs([
       ...nsList,
       {
@@ -74,7 +75,8 @@ export default function App() {
         loadBAndWaf: v2,
         netBandwithTb: v3,
         archiveGb: v4,
-        fileShareGb: v5
+        fileShareGb: v5,
+        price: v6
       }
     ]);
   };

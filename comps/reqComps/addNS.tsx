@@ -16,12 +16,21 @@ import {
 import { Card } from "react-native-elements";
 import { Container, Header, Content, Form } from "native-base";
 
-const addNS = ({ submitNs, nsList }) => {
+const addNS = ({ submitNs, nsList, prices }) => {
   const [publicIp, setPublicIp] = useState(0);
   const [loadBAndWaf, setLoadBAndWaf] = useState(0);
   const [netBandwithTb, setNetBandwithTb] = useState(0);
   const [archiveGb, setArchiveGb] = useState(0);
   const [fileShareGb, setFileShareGb] = useState(0);
+
+  const calculatePrice = () => {
+    let pIp: number = Number(publicIp) * prices.ip;
+    let pLoadBAndWaf: number = Number(loadBAndWaf) * prices.loadBalacerAndWaf;
+    let pArchive: number = Number(archiveGb) * prices.archive;
+    let pNetBandwithTb: number = Number(netBandwithTb) * prices.bandwith;
+    let pFileShare: number = Number(fileShareGb) * prices.fileShare;
+    return pIp + pLoadBAndWaf + pArchive + pNetBandwithTb + pFileShare;
+  };
 
   const validateAndSubmit = () => {
     let publicIpS: number = parseInt(publicIp, 10);
@@ -36,12 +45,14 @@ const addNS = ({ submitNs, nsList }) => {
         if (netBandwithTb >= 0 && Number.isInteger(netBandwithTbS)) {
           if (archiveGb >= 0 && Number.isInteger(archiveGbS)) {
             if (fileShareGb >= 0 && Number.isInteger(fileShareGbS)) {
+              let price: number = calculatePrice().toFixed(2);
               submitNs(
                 publicIpS,
                 loadBAndWafS,
                 netBandwithTb,
                 archiveGbS,
-                fileShareGb
+                fileShareGb,
+                price
               );
             } else {
               alert("Please enter a valid Fileshare value");

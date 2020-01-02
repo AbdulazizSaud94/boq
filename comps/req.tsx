@@ -35,7 +35,8 @@ const req = ({ submitVm, vmList, removeVm, submitNs, nsList, removeNs, prices })
           }}
         />
         <AddNS submitNs={submitNs} nsList={nsList} prices={prices} />
-        <NsList nsList={nsList} removeNs={removeNs} />
+        <NsList  nsList={nsList} removeNs={removeNs} />
+        <View style={{marginBottom:30}}></View>
       {/* </Content> */}
     </Container>
   );

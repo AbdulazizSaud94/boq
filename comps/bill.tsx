@@ -12,16 +12,24 @@ import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
 
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
-  const [vmPrice, setVmPrice] = useState(0);
-  const [nsPrice, setNsPrice] = useState(0);
   let totalVm: number = 0;
+  let totalNs: number = 0;
 
   vmList.map(
     (item: vmItem, index: number) => (totalVm = Number(item.price) + totalVm)
   );
-  const [totalPrice, setTotalPrice] = useState(totalVm);
+
+  nsList.map(
+    (item: nsItem, index: number) => (totalNs = Number(item.price) + totalNs)
+  );
+  const [totalVmPrice, setTotalVmPrice] = useState(totalVm);
+  const [totalNsPrice, setTotalNsPrice] = useState(totalNs);
+
   return (
     <View>
+      <View style={styles.row}>
+        <Text style={styles.listName}>Virtual Machine List</Text>
+      </View>
       <Text style={styles.listHeadr}>
         OS || PaaS - Item - Backup - Recovery - Quatity - Storage
       </Text>
@@ -35,7 +43,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => {
-                setTotalPrice(totalPrice - Number(item.price));
+                setTotalVmPrice(totalVmPrice - Number(item.price));
                 removeVm(index);
               }}
             >
@@ -44,8 +52,68 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           </Text>
         </View>
       ))}
-      <Text>Total Price of VMs= <Text style={styles.amount}>{totalPrice.toFixed(2)} SAR</Text></Text>
-      <NsList nsList={nsList} removeNs={removeNs} />
+      <Text style={{ marginTop: 20 }}>
+        Price All of VMs={" "}
+        <Text style={styles.amount}>
+          {totalVmPrice.toFixed(2)} SAR{" "}
+          <Text style={{ color: "black" }}>Monthly</Text>
+        </Text>
+      </Text>
+      <View style={styles.row}>
+        <Text style={styles.listName}>Network & Storage Product List</Text>
+      </View>
+      <View>
+        {nsList.length === 0 && (
+          <Text style={styles.roew}>No NS items added</Text>
+        )}
+        {nsList.map((item: nsItem, index: number) => (
+          <View key={index}>
+            <Text>
+              Number of IPs:{" "}
+              <Text style={styles.unit}>{item.publicIp} IPs</Text> - Load
+              Balancer & WAF:{" "}
+              <Text style={styles.unit}>{item.loadBAndWaf} / Application</Text>{" "}
+              - Internet Bandwith:{" "}
+              <Text style={styles.unit}>{item.netBandwithTb} TB</Text> -
+              Archive: <Text style={styles.unit}>{item.archiveGb} GB</Text> -
+              Fileshare: <Text style={styles.unit}>{item.fileShareGb} GB</Text>
+              {"  "} price:{" "}
+              <Text style={styles.amount}>({item.price} SAR)</Text> Monthly
+              <TouchableOpacity
+                style={styles.removeButton}
+                onPress={() => {
+                  setTotalNsPrice(totalNsPrice - Number(item.price));
+                  removeNs(index);
+                }}
+              >
+                <Text> Remove NS </Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
+        ))}
+        <Text style={{ marginTop: 20 }}>
+          Price of All Network & Storage={" "}
+          <Text style={styles.amount}>
+            {totalNsPrice.toFixed(2)} SAR{" "}
+            <Text style={{ color: "black" }}>Monthly</Text>
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={{
+          borderBottomColor: "#989898",
+          borderBottomWidth: 2,
+          marginTop: 50,
+          marginBottom: 10
+        }}
+      />
+      <View style={{ marginTop: 30 }}>
+        <Text style={styles.listHeadr}>Total price: </Text>
+        <Text style={styles.amount}>
+          {(totalNsPrice + totalVmPrice).toFixed(2)} SAR{" "}
+          <Text style={{ color: "black" }}>Monthly</Text>
+        </Text>
+      </View>
     </View>
   );
 };
@@ -71,5 +139,17 @@ const styles = StyleSheet.create({
   listHeadr: {
     fontWeight: "bold",
     marginBottom: 5
+  },
+  listName: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 10
+  },
+  unit: {
+    color: "#04762C"
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 20
   }
 });
