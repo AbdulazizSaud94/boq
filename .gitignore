@@ -1,7 +1,9 @@
 # OSX
 .DS_Store
 
+#project files
 assets/pricing/*
+.expo/*
 
 # Thumbnails
 ._*
