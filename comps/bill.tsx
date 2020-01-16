@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
-
+import {t1} from './getPrice';
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   let totalVm: number = 0;
   let totalNs: number = 0;
@@ -25,6 +25,17 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(totalVm);
   const [totalNsPrice, setTotalNsPrice] = useState(totalNs);
 
+  const calculatePricePerItem = (os, size, qty, backup, recovery, storage) => {
+    let fRecovery: number = 0;
+    let fVmPrice: number = prices[os + item];
+    let fStorage: number = storage * prices.storage;
+    let fBackup: number = prices["backup" + backup];
+    if (recovery === "Yes") {
+      fRecovery += prices.disasterRecovery;
+    }
+    let totalPrice: number = (fVmPrice * qty).toFixed(2);
+    return totalPrice;
+  };
   return (
     <View>
       <View style={styles.row}>
@@ -33,7 +44,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       <Text style={styles.listHeadr}>
         OS || PaaS - Item - Backup - Recovery - Quatity - Storage
       </Text>
-      {vmList.length === 0 && <Text style={styles.roew}>No VMs Added</Text>}
+      {vmList.length === 0 && <Text style={styles.row}>No VMs Added</Text>}
       {vmList.map((item: vmItem, index: number) => (
         <View key={index}>
           <Text>
@@ -45,6 +56,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               onPress={() => {
                 setTotalVmPrice(totalVmPrice - Number(item.price));
                 removeVm(index);
+                t1();
               }}
             >
               <Text> Remove VM </Text>
