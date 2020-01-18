@@ -10,32 +10,11 @@ import {
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
-import {t1} from './getPrice';
+import { getOsPrice, getTotalVmsPrice, getTotalNsPrice } from "./getPrice";
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
-  let totalVm: number = 0;
-  let totalNs: number = 0;
+  const [totalVmPrice, setTotalVmPrice] = useState(getTotalVmsPrice(vmList));
+  const [totalNsPrice, setTotalNsPrice] = useState(getTotalNsPrice(nsList));
 
-  vmList.map(
-    (item: vmItem, index: number) => (totalVm = Number(item.price) + totalVm)
-  );
-
-  nsList.map(
-    (item: nsItem, index: number) => (totalNs = Number(item.price) + totalNs)
-  );
-  const [totalVmPrice, setTotalVmPrice] = useState(totalVm);
-  const [totalNsPrice, setTotalNsPrice] = useState(totalNs);
-
-  const calculatePricePerItem = (os, size, qty, backup, recovery, storage) => {
-    let fRecovery: number = 0;
-    let fVmPrice: number = prices[os + item];
-    let fStorage: number = storage * prices.storage;
-    let fBackup: number = prices["backup" + backup];
-    if (recovery === "Yes") {
-      fRecovery += prices.disasterRecovery;
-    }
-    let totalPrice: number = (fVmPrice * qty).toFixed(2);
-    return totalPrice;
-  };
   return (
     <View>
       <View style={styles.row}>
@@ -48,15 +27,16 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       {vmList.map((item: vmItem, index: number) => (
         <View key={index}>
           <Text>
-            {item.os} - {item.item} - {item.backup} - {item.recovery} -{" "}
-            {item.qty} - {item.storage} GB {"  "} price:{" "}
-            <Text style={styles.amount}>({item.price} SAR)</Text>
+            {item.os}_{item.item}{" "}
+            <Text style={styles.amount}>
+              ({getOsPrice(item.os, item.item)} SAR)
+            </Text>{" "}
+            - {item.backup} - {item.recovery} - {item.qty} - {item.storage} GB
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => {
                 setTotalVmPrice(totalVmPrice - Number(item.price));
                 removeVm(index);
-                t1();
               }}
             >
               <Text> Remove VM </Text>
