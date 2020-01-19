@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
-import { getOsPrice, getTotalVmsPrice, getTotalNsPrice } from "./getPrice";
+import { getOsPrice, getTotalVmsPrice, getTotalNsPrice, getBackupPrice, getDRecoveryPrice } from "./getPrice";
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(getTotalVmsPrice(vmList));
   const [totalNsPrice, setTotalNsPrice] = useState(getTotalNsPrice(nsList));
@@ -31,7 +31,11 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             <Text style={styles.amount}>
               ({getOsPrice(item.os, item.item)} SAR)
             </Text>{" "}
-            - {item.backup} - {item.recovery} - {item.qty} - {item.storage} GB
+            - {item.backup} <Text style={styles.amount}>
+              ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+            </Text> - {item.recovery} <Text style={styles.amount}>
+              ({getDRecoveryPrice(item.qty, item.storage, item.recovery)} SAR)
+            </Text>- {item.qty} - {item.storage} GB
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => {
@@ -56,7 +60,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       </View>
       <View>
         {nsList.length === 0 && (
-          <Text style={styles.roew}>No NS items added</Text>
+          <Text style={styles.row}>No NS items added</Text>
         )}
         {nsList.map((item: nsItem, index: number) => (
           <View key={index}>

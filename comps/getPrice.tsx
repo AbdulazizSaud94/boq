@@ -4,15 +4,16 @@ export function getOsPrice(os: string, size: string) {
   return prices[os + size];
 }
 
-export function getRecoveryPrice(recovery) {
+export function getDRecoveryPrice(qty, storage,recovery) {
+  let recoveryPrice: number = 0;
   if (recovery === "Yes") {
-    recovery = prices.disasterRecovery;
+    recoveryPrice = (qty*prices.vmMonthly)+(storage*prices.storage);
   }
-  return recovery;
+  return recoveryPrice;
 }
 
-export function getBackupPrice() {
-  return prices["backup" + backup];
+export function getBackupPrice(qty, storage, backup) {
+  return (qty*prices.vmMonthly)+(storage*prices.storage);
 }
 export function getStoragePrice(storage) {
   return storage * prices.storage;
