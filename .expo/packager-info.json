@@ -3,8 +3,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://yn-iuv.anonymous.boq.exp.direct",
   "packagerNgrokUrl": "https://packager.yn-iuv.anonymous.boq.exp.direct",
-  "ngrokPid": 5673,
+  "ngrokPid": 3117,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 5653
+  "packagerPort": null,
+  "packagerPid": null
 }

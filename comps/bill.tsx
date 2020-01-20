@@ -11,9 +11,27 @@ import {
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
 import { getOsPrice, getTotalVmsPrice, getTotalNsPrice, getBackupPrice, getDRecoveryPrice } from "./getPrice";
+interface vmItem {
+  item: string;
+  qty: number;
+  os: string;
+  storage: number;
+  backup: string;
+  recovery: string;
+  price: number;
+}
+
+interface nsItem {
+  publicIp: number;
+  loadBAndWaf: number;
+  netBandwithTb: number;
+  archiveGb: number;
+  fileShareGb: number;
+  price: number;
+}
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
-  const [totalVmPrice, setTotalVmPrice] = useState(getTotalVmsPrice(vmList));
-  const [totalNsPrice, setTotalNsPrice] = useState(getTotalNsPrice(nsList));
+  const [totalVmPrice, setTotalVmPrice] = useState(Number(getTotalVmsPrice(vmList)));
+  const [totalNsPrice, setTotalNsPrice] = useState(Number(getTotalNsPrice(nsList)));
 
   return (
     <View>
@@ -29,7 +47,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           <Text>
             {item.os}_{item.item}{" "}
             <Text style={styles.amount}>
-              ({getOsPrice(item.os, item.item)} SAR)
+              ({getOsPrice(item.os, item.item,item.qty)} SAR)
             </Text>{" "}
             - {item.backup} <Text style={styles.amount}>
               ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
@@ -39,7 +57,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => {
-                setTotalVmPrice(totalVmPrice - Number(item.price));
+                setTotalVmPrice(Number(totalVmPrice) - Number(item.price));
                 removeVm(index);
               }}
             >
@@ -51,7 +69,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       <Text style={{ marginTop: 20 }}>
         Price All of VMs={" "}
         <Text style={styles.amount}>
-          {totalVmPrice.toFixed(2)} SAR{" "}
+          {Number(totalVmPrice).toFixed(2)} SAR{" "}
           <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>
@@ -90,7 +108,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         <Text style={{ marginTop: 20 }}>
           Price of All Network & Storage={" "}
           <Text style={styles.amount}>
-            {totalNsPrice.toFixed(2)} SAR{" "}
+            {Number(totalNsPrice).toFixed(2)} SAR{" "}
             <Text style={{ color: "black" }}>Monthly</Text>
           </Text>
         </Text>

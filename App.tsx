@@ -26,24 +26,7 @@ import prices from "./assets/pricing/prices.json";
 
 const pages = { req, bill };
 
-interface vmItem {
-  item: string;
-  qty: number;
-  os: string;
-  storage: number;
-  backup: string;
-  recovery: string;
-  price: number;
-}
 
-interface nsItem {
-  publicIp: number;
-  loadBAndWaf: number;
-  netBandwithTb: number;
-  archiveGb: number;
-  fileShareGb: number;
-  price: number;
-}
 export default function App() {
   const [vmList, addVm] = useState([]);
   const [page, setPage] = useState("req");
