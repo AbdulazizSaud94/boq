@@ -1,10 +1,10 @@
 {
-  "webpackServerPort": null,
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "webpackServerPort": 19006,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://ir-qx5.abdulazizsaud.boq.exp.direct",
+  "packagerNgrokUrl": "https://packager.ir-qx5.abdulazizsaud.boq.exp.direct",
+  "ngrokPid": 7659,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null
+  "packagerPort": 19001,
+  "packagerPid": 7650
 }

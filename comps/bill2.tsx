@@ -50,7 +50,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               ({getOsPrice(item.os, item.item,item.qty)} SAR)
             </Text>{" "}
             - {item.backup} <Text style={styles.amount}>
-              ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+              ({getBackupPrice(item.qty, item.storage, item.backup)} SAR)
             </Text> - {item.recovery} <Text style={styles.amount}>
               ({getDRecoveryPrice(item.qty, item.storage, item.recovery)} SAR)
             </Text>- {item.qty} - {item.storage} GB
