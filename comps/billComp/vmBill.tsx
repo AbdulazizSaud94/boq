@@ -6,7 +6,8 @@ import {
   TextInput,
   Button,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import VmList from "../reqComps/vmList";
 import {
@@ -37,58 +38,60 @@ const vmBill = ({ vmList, removeVm }) => {
       <View style={styles.row}>
         <Text style={styles.listName}>Virtual Machine List</Text>
       </View>
-      <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
-        <Row
-          data={[
-            "OS || PaaS",
-            "Backup",
-            "Disaster Recovery",
-            "Storage",
-            "Quantity",
-            "Acion"
-          ]}
-          style={styles.head}
-          textStyle={styles.textHead}
-        />
-
-        {vmList.map((item: vmItem, index: number) => (
+      <ScrollView>
+        <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
           <Row
             data={[
-              <Text style={styles.cell}>
-                {item.os} - {item.item}
-                {"\n"}
-                <Text style={styles.amount}>
-                  ({getOsPrice(item.os, item.item, item.qty)} SAR)
-                </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.backup} {"\n"}
-                <Text style={styles.amount}>
-                  ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
-                </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.recovery} {"\n"}
-                <Text style={styles.amount}>
-                  ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
-                  SAR)
-                </Text>
-              </Text>,
-              <Text style={styles.cell}>{item.storage} GB</Text>,
-              <Text style={styles.cell}>{item.qty}</Text>,
-              <TouchableOpacity
-                onPress={() => {
-                  setTotalVmPrice(Number(totalVmPrice) - Number(item.price));
-                  removeVm(index);
-                }}
-              >
-                <Text style={styles.removeButton}> Remove VM </Text>
-              </TouchableOpacity>
+              "OS || PaaS",
+              "Backup",
+              "Disaster Recovery",
+              "Storage",
+              "Quantity",
+              "Acion"
             ]}
-            textStyle={styles.textRow}
+            style={styles.head}
+            textStyle={styles.textHead}
           />
-        ))}
-      </Table>
+
+          {vmList.map((item: vmItem, index: number) => (
+            <Row
+              data={[
+                <Text style={styles.cell}>
+                  {item.os} - {item.item}
+                  {"\n"}
+                  <Text style={styles.amount}>
+                    ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  {item.backup} {"\n"}
+                  <Text style={styles.amount}>
+                    ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  {item.recovery} {"\n"}
+                  <Text style={styles.amount}>
+                    ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
+                    SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>{item.storage} GB</Text>,
+                <Text style={styles.cell}>{item.qty}</Text>,
+                <TouchableOpacity
+                  onPress={() => {
+                    setTotalVmPrice(Number(totalVmPrice) - Number(item.price));
+                    removeVm(index);
+                  }}
+                >
+                  <Text style={styles.removeButton}> Remove VM </Text>
+                </TouchableOpacity>
+              ]}
+              textStyle={styles.textRow}
+            />
+          ))}
+        </Table>
+      </ScrollView>
       {vmList.length === 0 && <Text style={styles.row}>No VMs Added</Text>}
     </View>
   );
@@ -96,6 +99,7 @@ const vmBill = ({ vmList, removeVm }) => {
 
 export default vmBill;
 const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#fff",},
 
   removeButton: {
     color: "#C42424",

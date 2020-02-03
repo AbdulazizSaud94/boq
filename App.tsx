@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   tabbar: {
     flexDirection: "row",
-    backgroundColor: "#369248",
+    backgroundColor: "#476A34",
     borderBottomColor: "#eee",
     borderBottomWidth: 1
   },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
 
-  active: { backgroundColor: "#33673E" },
+  active: { backgroundColor: "#3B5E2B" },
   page: {
     padding: 20,
     flex: 1

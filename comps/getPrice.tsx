@@ -6,13 +6,10 @@ export function getOsPrice(os: string, size: string, qty: number) {
 
 export function getDRecoveryPrice(qty, storage, recovery) {
   let recoveryPrice: number = 0;
-  console.log(qty)
-  console.log(storage)
-  console.log(recovery)
   if (recovery === "Yes") {
-    recoveryPrice = qty * (prices.vmLicenseHourly*720) + storage * prices.storage;
+    recoveryPrice =
+      qty * (prices.vmLicenseHourly * 720) + storage * prices.storage;
   }
-  console.log(recoveryPrice);
   return recoveryPrice.toFixed(2);
 }
 
@@ -35,7 +32,10 @@ export function getBackupPrice(storage, qty, backup) {
         720
       ).toFixed(2);
     case "Monthly":
-      return ((priceLicense + prices.retationMonths * priceStorage)*720).toFixed(2);
+      return (
+        (priceLicense + prices.retationMonths * priceStorage) *
+        720
+      ).toFixed(2);
   }
 }
 export function getStoragePrice(storage) {
@@ -61,4 +61,12 @@ export function getTotalNsPrice(nsList) {
     (item: nsItem, index: number) => (totalNs = Number(item.price) + totalNs)
   );
   return totalNs.toFixed(2);
+}
+
+export function getPublicIpPrice(publicIp: number) {
+  return publicIp * pices.ip;
+}
+
+export function getLodBAndWafPrice(loadBAndWaf: number) {
+  return loadBAndWaf * prices.loadBalacerAndWaf;
 }

@@ -6,7 +6,8 @@ import {
   TextInput,
   Button,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+    ScrollView
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
@@ -55,12 +56,21 @@ const nsBill = ({ nsList, removeNs, prices }) => {
           {nsList.map((item: nsItem, index: number) => (
             <Row
               data={[
-                <Text style={styles.unit}>{item.publicIp} IPs</Text>,
-                "Load Balancer & WAF",
-                " Internet Bandwith",
-                "Archive",
-                "Fileshare",
-                "Action"
+                <Text style={styles.cell}>{item.publicIp} IPs</Text>,
+                <Text style={styles.cell}>
+                  {item.loadBAndWaf} / Application
+                </Text>,
+                <Text style={styles.cell}>{item.netBandwithTb} TB</Text>,
+                <Text style={styles.cell}>{item.archiveGb} GB</Text>,
+                <Text style={styles.cell}>{item.fileShareGb} GB</Text>,
+                <TouchableOpacity
+                  onPress={() => {
+                    setTotalNsPrice(totalNsPrice - Number(item.price));
+                    removeNs(index);
+                  }}
+                >
+                  <Text style={styles.removeButton}> Remove NS </Text>
+                </TouchableOpacity>
               ]}
               textStyle={styles.textRow}
             />
@@ -77,6 +87,8 @@ const nsBill = ({ nsList, removeNs, prices }) => {
 
 export default nsBill;
 const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
+
   removeButton: {
     color: "#C42424",
     textDecorationLine: "underline",
@@ -105,7 +117,7 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingLeft: 10
   },
-  container: { flex: 1, padding: 16, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: "#fff" },
   head: { height: 40, backgroundColor: "#DCDCE0" },
   textRow: { margin: 6 },
   textHead: { margin: 6, fontWeight: "bold" }

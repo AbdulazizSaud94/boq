@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     paddingTop: 7,
     justifyContent: "center",
     alignItems: 'center',
-    backgroundColor: "#C0C0C0"
+    backgroundColor: "#DCDCE0"
   },
   title: {
     // textAlign: "center",
