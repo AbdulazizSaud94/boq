@@ -28,7 +28,7 @@ interface vmItem {
   price: number;
 }
 
-const bill = ({ vmList, removeVm }) => {
+const vmBill = ({ vmList, removeVm }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
     Number(getTotalVmsPrice(vmList))
   );
@@ -54,28 +54,28 @@ const bill = ({ vmList, removeVm }) => {
         {vmList.map((item: vmItem, index: number) => (
           <Row
             data={[
-              <Text>
+              <Text style={styles.cell}>
                 {item.os} - {item.item}
                 {"\n"}
                 <Text style={styles.amount}>
                   ({getOsPrice(item.os, item.item, item.qty)} SAR)
                 </Text>
               </Text>,
-              <Text style={{paddingLeft:10}}>
+              <Text style={styles.cell}>
                 {item.backup} {"\n"}
                 <Text style={styles.amount}>
                   ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
                 </Text>
               </Text>,
-              <Text>
+              <Text style={styles.cell}>
                 {item.recovery} {"\n"}
                 <Text style={styles.amount}>
                   ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
                   SAR)
                 </Text>
               </Text>,
-              <Text>{item.storage} GB</Text>,
-              <Text>{item.qty}</Text>,
+              <Text style={styles.cell}>{item.storage} GB</Text>,
+              <Text style={styles.cell}>{item.qty}</Text>,
               <TouchableOpacity
                 onPress={() => {
                   setTotalVmPrice(Number(totalVmPrice) - Number(item.price));
@@ -94,16 +94,9 @@ const bill = ({ vmList, removeVm }) => {
   );
 };
 
-export default bill;
+export default vmBill;
 const styles = StyleSheet.create({
-  inputBox: {
-    width: 200,
-    height: 35,
-    borderRadius: 8,
-    borderWidth: 2,
-    paddingLeft: 8,
-    marginBottom: 15
-  },
+
   removeButton: {
     color: "#C42424",
     textDecorationLine: "underline",
@@ -127,6 +120,10 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     marginTop: 20
+  },
+  cell: {
+    padding: 3,
+    paddingLeft: 10
   },
   container: { flex: 1, padding: 16, backgroundColor: "#fff" },
   head: { height: 40, backgroundColor: "#DCDCE0" },

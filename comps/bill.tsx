@@ -11,6 +11,8 @@ import {
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
 import VmBill from "./billComp/vmBill";
+import NsBill from "./billComp/nsBill";
+
 import {
   getOsPrice,
   getTotalVmsPrice,
@@ -24,7 +26,17 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   return (
     <View style={styles.container}>
       <VmBill vmList={vmList} removeVm={removeVm} />
+      <View
+        style={{
+          borderBottomColor: "#989898",
+          borderBottomWidth: 2,
+          marginTop: 10,
+          marginBottom: 10
+        }}
+      />
+      <NsBill nsList={nsList} removeNs={removeNs}/>
     </View>
+
   );
 };
 
