@@ -64,9 +64,21 @@ export function getTotalNsPrice(nsList) {
 }
 
 export function getPublicIpPrice(publicIp: number) {
-  return publicIp * pices.ip;
+  return (publicIp * prices.ip).toFixed(2);
 }
 
 export function getLodBAndWafPrice(loadBAndWaf: number) {
-  return loadBAndWaf * prices.loadBalacerAndWaf;
+  return (loadBAndWaf * prices.loadBalacerAndWaf).toFixed(2);
+}
+
+export function getNetBandwithPrice(netBandwithGb:number) {
+  return (netBandwithGb*prices.bandwith).toFixed(2);
+}
+
+export function getArchivePrice(archiveGb:number) {
+  return (archiveGb*prices.archive).toFixed(2);
+}
+
+export function getFileSharePrice(fileShareGb:number){
+  return (prices.fileShare*fileShareGb).toFixed(2)
 }

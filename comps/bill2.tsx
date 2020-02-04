@@ -24,7 +24,7 @@ interface vmItem {
 interface nsItem {
   publicIp: number;
   loadBAndWaf: number;
-  netBandwithTb: number;
+  netBandwitGb: number;
   archiveGb: number;
   fileShareGb: number;
   price: number;
@@ -88,7 +88,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               Balancer & WAF:{" "}
               <Text style={styles.unit}>{item.loadBAndWaf} / Application</Text>{" "}
               - Internet Bandwith:{" "}
-              <Text style={styles.unit}>{item.netBandwithTb} TB</Text> -
+              <Text style={styles.unit}>{item.netBandwithGb} GB</Text> -
               Archive: <Text style={styles.unit}>{item.archiveGb} GB</Text> -
               Fileshare: <Text style={styles.unit}>{item.fileShareGb} GB</Text>
               {"  "} price:{" "}

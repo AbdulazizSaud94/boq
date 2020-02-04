@@ -7,23 +7,24 @@ import {
   Button,
   Modal,
   TouchableOpacity,
-    ScrollView
+  ScrollView
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
 import {
-  getOsPrice,
-  getTotalVmsPrice,
+  getPublicIpPrice,
   getTotalNsPrice,
-  getBackupPrice,
-  getDRecoveryPrice
+  getLodBAndWafPrice,
+  getArchivePrice,
+  getNetBandwithPrice,
+  getFileSharePrice
 } from "./../getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
 
 interface nsItem {
   publicIp: number;
   loadBAndWaf: number;
-  netBandwithTb: number;
+  netBandwithGb: number;
   archiveGb: number;
   fileShareGb: number;
   price: number;
@@ -56,13 +57,36 @@ const nsBill = ({ nsList, removeNs, prices }) => {
           {nsList.map((item: nsItem, index: number) => (
             <Row
               data={[
-                <Text style={styles.cell}>{item.publicIp} IPs</Text>,
                 <Text style={styles.cell}>
-                  {item.loadBAndWaf} / Application
+                  {item.publicIp} IPs{"\n"}
+                  <Text style={styles.amount}>
+                    ({getPublicIpPrice(item.publicIp)} SAR)
+                  </Text>
                 </Text>,
-                <Text style={styles.cell}>{item.netBandwithTb} TB</Text>,
-                <Text style={styles.cell}>{item.archiveGb} GB</Text>,
-                <Text style={styles.cell}>{item.fileShareGb} GB</Text>,
+                <Text style={styles.cell}>
+                  {item.loadBAndWaf} / Application{"\n"}
+                  <Text style={styles.amount}>
+                    ({getLodBAndWafPrice(item.loadBAndWaf)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  {item.netBandwithGb} GB{"\n"}
+                  <Text style={styles.amount}>
+                    ({getNetBandwithPrice(item.netBandwithGb)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  {item.archiveGb} GB{"\n"}
+                  <Text style={styles.amount}>
+                    ({getArchivePrice(item.archiveGb)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  {item.fileShareGb} GB{"\n"}
+                  <Text style={styles.amount}>
+                    ({getFileSharePrice(item.fileShareGb)} SAR)
+                  </Text>
+                </Text>,
                 <TouchableOpacity
                   onPress={() => {
                     setTotalNsPrice(totalNsPrice - Number(item.price));

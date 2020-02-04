@@ -21,7 +21,6 @@ const osList = {
   Redhat: "RedHat",
   Windows16: "Windows 2016",
   Windows12: "Microsoft Windows Server 2012 R2",
-  Ubuntu: "Ubuntu",
   MicrosoftSQL: "Microsoft SQL Server",
   MariaDB: "MariaDB",
   PostgreSQL: "PostgreSQL",

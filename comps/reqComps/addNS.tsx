@@ -19,7 +19,7 @@ import { Container, Header, Content, Form } from "native-base";
 const addNS = ({ submitNs, nsList, prices }) => {
   const [publicIp, setPublicIp] = useState(0);
   const [loadBAndWaf, setLoadBAndWaf] = useState(0);
-  const [netBandwithTb, setNetBandwithTb] = useState(0);
+  const [netBandwithGb, setNetBandwithGb] = useState(0);
   const [archiveGb, setArchiveGb] = useState(0);
   const [fileShareGb, setFileShareGb] = useState(0);
 
@@ -27,29 +27,29 @@ const addNS = ({ submitNs, nsList, prices }) => {
     let pIp: number = Number(publicIp) * prices.ip;
     let pLoadBAndWaf: number = Number(loadBAndWaf) * prices.loadBalacerAndWaf;
     let pArchive: number = Number(archiveGb) * prices.archive;
-    let pNetBandwithTb: number = Number(netBandwithTb) * prices.bandwith;
+    let pNetBandwithGb: number = Number(netBandwithGb) * prices.bandwith;
     let pFileShare: number = Number(fileShareGb) * prices.fileShare;
-    return pIp + pLoadBAndWaf + pArchive + pNetBandwithTb + pFileShare;
+    return pIp + pLoadBAndWaf + pArchive + pNetBandwithGb + pFileShare;
   };
 
   const validateAndSubmit = () => {
     let publicIpS: number = parseInt(publicIp, 10);
     let loadBAndWafS: number = parseInt(loadBAndWaf, 10);
-    let netBandwithTbS: number = parseInt(netBandwithTb, 10);
+    let netBandwithGbS: number = parseInt(netBandwithGb, 10);
     let archiveGbS: number = parseInt(archiveGb, 10);
     let fileShareGbS: number = parseInt(fileShareGb, 10);
     //check IP field
     if (publicIp >= 0 && Number.isInteger(publicIpS)) {
       //Check WAF and Load balacer field
       if (loadBAndWaf >= 0 && Number.isInteger(loadBAndWafS)) {
-        if (netBandwithTb >= 0 && Number.isInteger(netBandwithTbS)) {
+        if (netBandwithGb >= 0 && Number.isInteger(netBandwithGbS)) {
           if (archiveGb >= 0 && Number.isInteger(archiveGbS)) {
             if (fileShareGb >= 0 && Number.isInteger(fileShareGbS)) {
               let price: number = calculatePrice().toFixed(2);
               submitNs(
                 publicIpS,
                 loadBAndWafS,
-                netBandwithTb,
+                netBandwithGb,
                 archiveGbS,
                 fileShareGb,
                 price
@@ -99,13 +99,13 @@ const addNS = ({ submitNs, nsList, prices }) => {
           </View>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>Internet Bandwith:</Text>
+              <Text style={styles.subtitle}>Fileshare:</Text>
               <TextInput
                 style={styles.textField}
-                onChangeText={setNetBandwithTb}
-                value={netBandwithTb}
+                onChangeText={setFileShareGb}
+                value={fileShareGb}
               />
-              <Text style={styles.unit}>TB</Text>
+              <Text style={styles.unit}>GB</Text>
             </View>
           </View>
         </View>
@@ -125,11 +125,11 @@ const addNS = ({ submitNs, nsList, prices }) => {
           </View>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>Fileshare:</Text>
+              <Text style={styles.subtitle}>Egress Internet Bandwith:</Text>
               <TextInput
                 style={styles.textField}
-                onChangeText={setFileShareGb}
-                value={fileShareGb}
+                onChangeText={setNetBandwithGb}
+                value={netBandwithGb}
               />
               <Text style={styles.unit}>GB</Text>
             </View>

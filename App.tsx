@@ -56,7 +56,7 @@ export default function App() {
       {
         publicIp: v1,
         loadBAndWaf: v2,
-        netBandwithTb: v3,
+        netBandwithGb: v3,
         archiveGb: v4,
         fileShareGb: v5,
         price: v6

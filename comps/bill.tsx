@@ -89,7 +89,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         style={{
           borderBottomColor: "#989898",
           borderBottomWidth: 2,
-          marginTop: 20,
+          marginTop: 70,
           marginBottom: 10
         }}
       />
