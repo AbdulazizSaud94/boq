@@ -6,8 +6,7 @@ import {
   TextInput,
   Button,
   Modal,
-  TouchableOpacity,
-  
+  TouchableOpacity
 } from "react-native";
 import VmList from "./reqComps/vmList";
 import NsList from "./reqComps/nsList";
@@ -19,7 +18,8 @@ import {
   getTotalVmsPrice,
   getTotalNsPrice,
   getBackupPrice,
-  getDRecoveryPrice
+  getDRecoveryPrice,
+  getVmPrice
 } from "./getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
 
@@ -32,59 +32,66 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       <View style={styles.row}>
         <Text style={styles.listName}>Virtual Machine List</Text>
       </View>
-        <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
+      <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
+        <Row
+          data={[
+            "OS || PaaS",
+            "Backup",
+            "Disaster Recovery",
+            "Storage",
+            "Quantity",
+            "Acion"
+          ]}
+          style={styles.head}
+          textStyle={styles.textHead}
+        />
+
+        {vmList.map((item: vmItem, index: number) => (
           <Row
             data={[
-              "OS || PaaS",
-              "Backup",
-              "Disaster Recovery",
-              "Storage",
-              "Quantity",
-              "Acion"
+              <Text style={styles.cell}>
+                {item.os} - {item.item}
+                {"\n"}
+                <Text style={styles.amount}>
+                  ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                </Text>
+              </Text>,
+              <Text style={styles.cell}>
+                {item.backup} {"\n"}
+                <Text style={styles.amount}>
+                  ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+                </Text>
+              </Text>,
+              <Text style={styles.cell}>
+                {item.recovery} {"\n"}
+                <Text style={styles.amount}>
+                  ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
+                  SAR)
+                </Text>
+              </Text>,
+              <Text style={styles.cell}>{item.storage} GB</Text>,
+              <Text style={styles.cell}>{item.qty}</Text>,
+              <TouchableOpacity
+                onPress={() => {
+                  setTotalVmPrice(Number(totalVmPrice) - Number(getVmPrice(item)));
+                  removeVm(index);
+                }}
+              >
+                <Text style={styles.removeButton}> Remove VM </Text>
+              </TouchableOpacity>
             ]}
-            style={styles.head}
-            textStyle={styles.textHead}
+            textStyle={styles.textRow}
           />
-
-          {vmList.map((item: vmItem, index: number) => (
-            <Row
-              data={[
-                <Text style={styles.cell}>
-                  {item.os} - {item.item}
-                  {"\n"}
-                  <Text style={styles.amount}>
-                    ({getOsPrice(item.os, item.item, item.qty)} SAR)
-                  </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.backup} {"\n"}
-                  <Text style={styles.amount}>
-                    ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
-                  </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.recovery} {"\n"}
-                  <Text style={styles.amount}>
-                    ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
-                    SAR)
-                  </Text>
-                </Text>,
-                <Text style={styles.cell}>{item.storage} GB</Text>,
-                <Text style={styles.cell}>{item.qty}</Text>,
-                <TouchableOpacity
-                  onPress={() => {
-                    setTotalVmPrice(Number(totalVmPrice) - Number(item.price));
-                    removeVm(index);
-                  }}
-                >
-                  <Text style={styles.removeButton}> Remove VM </Text>
-                </TouchableOpacity>
-              ]}
-              textStyle={styles.textRow}
-            />
-          ))}
-        </Table>
+        ))}
+      </Table>
       {vmList.length === 0 && <Text style={styles.row}>No VMs Added</Text>}
+      <Text style={{ marginTop: 20 }}>
+        Price All of VMs ={" "}
+        <Text style={styles.amount}>
+          {Number(totalVmPrice).toFixed(2)} SAR{" "}
+          <Text style={{ color: "black" }}>Monthly</Text>
+        </Text>
+      </Text>
       <View
         style={{
           borderBottomColor: "#989898",
@@ -93,9 +100,8 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           marginBottom: 10
         }}
       />
-      <NsBill nsList={nsList} removeNs={removeNs}/>
+      <NsBill nsList={nsList} removeNs={removeNs} />
     </View>
-
   );
 };
 
@@ -105,11 +111,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20
   },
-  container: { flex: 1, padding: 16,  backgroundColor: "#fff" },
+  container: { flex: 1, padding: 16, backgroundColor: "#fff" },
   head: { height: 40, backgroundColor: "#DCDCE0" },
   text: { margin: 6 },
 
-  container: { flex: 1, backgroundColor: "#fff",},
+  container: { flex: 1, backgroundColor: "#fff" },
 
   removeButton: {
     color: "#C42424",
