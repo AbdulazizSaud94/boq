@@ -17,7 +17,8 @@ import {
   getLodBAndWafPrice,
   getArchivePrice,
   getNetBandwithPrice,
-  getFileSharePrice
+  getFileSharePrice,
+  getNSPrice
 } from "./../getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
 
@@ -89,7 +90,9 @@ const nsBill = ({ nsList, removeNs, prices }) => {
                 </Text>,
                 <TouchableOpacity
                   onPress={() => {
-                    setTotalNsPrice(totalNsPrice - Number(item.price));
+                    setTotalNsPrice(
+                      Math.abs(totalNsPrice - Number(getNSPrice(item)))
+                    );
                     removeNs(index);
                   }}
                 >
@@ -100,10 +103,16 @@ const nsBill = ({ nsList, removeNs, prices }) => {
             />
           ))}
         </Table>
-
         {nsList.length === 0 && (
           <Text style={styles.row}>No NS items added</Text>
         )}
+        <Text style={{ marginTop: 20 }}>
+          Price of All Network & Storage ={" "}
+          <Text style={styles.amount}>
+            {Number(totalNsPrice).toFixed(2)} SAR{" "}
+            <Text style={{ color: "black" }}>Monthly</Text>
+          </Text>
+        </Text>
       </View>
     </View>
   );

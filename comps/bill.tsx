@@ -73,7 +73,9 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               <Text style={styles.cell}>{item.qty}</Text>,
               <TouchableOpacity
                 onPress={() => {
-                  setTotalVmPrice(Number(totalVmPrice) - Number(getVmPrice(item)));
+                  setTotalVmPrice(
+                    Math.abs(Number(totalVmPrice) - Number(getVmPrice(item)))
+                  );
                   removeVm(index);
                 }}
               >
