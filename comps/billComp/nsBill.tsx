@@ -96,7 +96,7 @@ const nsBill = ({ nsList, removeNs, prices }) => {
                     removeNs(index);
                   }}
                 >
-                  <Text style={styles.removeButton}> Remove NS </Text>
+                  <Text style={styles.removeButton}> Remove Item </Text>
                 </TouchableOpacity>
               ]}
               textStyle={styles.textRow}
@@ -104,7 +104,7 @@ const nsBill = ({ nsList, removeNs, prices }) => {
           ))}
         </Table>
         {nsList.length === 0 && (
-          <Text style={styles.row}>No NS items added</Text>
+          <Text style={styles.row}>No Network & Storage items added</Text>
         )}
         <Text style={{ marginTop: 20 }}>
           Price of All Network & Storage ={" "}

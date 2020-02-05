@@ -27,6 +27,16 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
     Number(getTotalVmsPrice(vmList))
   );
+
+  const [isPrinting, setIsPrinting] = useState(false);
+
+    const [action, setSection] = useState();
+
+
+  function firstFunction(_callback) {
+    setIsPrinting(true);
+    _callback();
+  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -40,7 +50,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             "Disaster Recovery",
             "Storage",
             "Quantity",
-            "Acion"
+            action
           ]}
           style={styles.head}
           textStyle={styles.textHead}
@@ -71,22 +81,30 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               </Text>,
               <Text style={styles.cell}>{item.storage} GB</Text>,
               <Text style={styles.cell}>{item.qty}</Text>,
-              <TouchableOpacity
-                onPress={() => {
-                  setTotalVmPrice(
-                    Math.abs(Number(totalVmPrice) - Number(getVmPrice(item)))
-                  );
-                  removeVm(index);
-                }}
-              >
-                <Text style={styles.removeButton}> Remove VM </Text>
-              </TouchableOpacity>
+              <div>
+                {isPrinting === false && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setTotalVmPrice(
+                        Math.abs(
+                          Number(totalVmPrice) - Number(getVmPrice(item))
+                        )
+                      );
+                      removeVm(index);
+                    }}
+                  >
+                    <Text style={styles.removeButton}> Remove VM </Text>
+                  </TouchableOpacity>
+                )}
+              </div>
             ]}
             textStyle={styles.textRow}
           />
         ))}
       </Table>
-      {vmList.length === 0 && <Text style={styles.row}>No VMs Added</Text>}
+      {vmList.length === 0 && (
+        <Text style={styles.row}>No Virtual Machines Added</Text>
+      )}
       <Text style={{ marginTop: 20 }}>
         Price All of VMs ={" "}
         <Text style={styles.amount}>
@@ -103,6 +121,20 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         }}
       />
       <NsBill nsList={nsList} removeNs={removeNs} />
+      <View style={styles.row}>
+        <Button
+          title="Export Bill"
+          onPress={() => {
+            firstFunction(function() {
+              setTimeout(function afterTwoSeconds() {
+                window.print();
+                setIsPrinting(false);
+              }, 50);
+            });
+          }}
+          color="#476A34"
+        />
+      </View>
     </View>
   );
 };

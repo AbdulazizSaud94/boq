@@ -140,7 +140,7 @@ const addNS = ({ submitNs, nsList, prices }) => {
             <Button
               title="Add product"
               onPress={() => validateAndSubmit()}
-              color="#0C6E2A"
+              color="#476A34"
             />
           </View>
         </View>

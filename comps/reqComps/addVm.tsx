@@ -186,7 +186,7 @@ const addVm = ({ submitVm, vmList, prices }) => {
             <Button
               title="Add VM"
               onPress={() => validateAndSubmit()}
-              color="#0C6E2A"
+              color="#476A34"
             />
           </View>
         </View>
