@@ -1,8 +1,15 @@
 import prices from ".././assets/pricing/prices.json";
 
 export function getOsPrice(os: string, size: string, qty: number) {
+  console.log(os);
   switch (os) {
+    case "MariaDB":
+      return (prices["CentOS" + size] * qty).toFixed(2);
+    case "PostgreSQL":
+      return (prices["CentOS" + size] * qty).toFixed(2);
     case "Docker":
+      return (prices["CentOS" + size] * qty).toFixed(2);
+    case "MicrosoftSQL":
       return (prices["CentOS" + size] * qty).toFixed(2);
     default:
       return (prices[os + size] * qty).toFixed(2);
