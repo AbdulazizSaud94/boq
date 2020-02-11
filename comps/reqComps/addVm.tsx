@@ -158,7 +158,7 @@ const addVm = ({ submitVm, vmList, prices }) => {
             </Picker>
           </View>
           <View>
-            <Text style={styles.subtitle}>Recovery:</Text>
+            <Text style={styles.subtitle}>Disaster Recovery:</Text>
             <Picker
               mode="dialog"
               style={{ width: 100 }}

@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 
 const vmList = ({ vmList, removeVm }) => {
-
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -11,16 +10,18 @@ const vmList = ({ vmList, removeVm }) => {
       <View>
         {vmList.length > 0 && (
           <Text style={styles.listHeadr}>
-            OS || PaaS - Item - Backup - Recovery - Quatity - Storage
+            QTY - Size - OS - Storage - Backup - DR
           </Text>
         )}
         {vmList.length === 0 && <Text style={styles.roew}>No VMs Added</Text>}
         {vmList.map((item: vmItem, index: number) => (
           <View key={index}>
             <Text>
-              {item.os} - {item.item} - {item.backup} - {item.recovery} -{" "}
-              {item.qty} - {item.storage} GB {"  "}
-              <TouchableOpacity style={styles.removeButton} onPress={()=>removeVm(index)}>
+              {item.qty}   -   {item.item}   -   {item.os}   -   {item.storage} GB   -   {item.backup}   -   {item.recovery}
+              <TouchableOpacity
+                style={styles.removeButton}
+                onPress={() => removeVm(index)}
+              >
                 <Text> Remove VM </Text>
               </TouchableOpacity>
             </Text>

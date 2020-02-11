@@ -3,8 +3,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://fv-sff.abdulazizsaud.boq.exp.direct",
   "packagerNgrokUrl": "https://packager.fv-sff.abdulazizsaud.boq.exp.direct",
-  "ngrokPid": 21059,
+  "ngrokPid": 9093,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 21050
+  "packagerPid": 9084
 }
