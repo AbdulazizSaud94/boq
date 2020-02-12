@@ -269,11 +269,18 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         style={{
           borderBottomColor: "#989898",
           borderBottomWidth: 2,
-          marginTop: 70,
+          marginTop: 40,
           marginBottom: 10
         }}
       />
-      <View style={styles.row}>
+      <Text style={{ marginTop: 20 }}>
+          OverAll Price ={" "}
+          <Text style={styles.amount}>
+            {Number(totalNsPrice+totalVmPrice).toFixed(2)} SAR{" "}
+            <Text style={{ color: "black" }}>Monthly</Text>
+          </Text>
+        </Text>
+      <View style={{flexDirection: "row",marginTop: 15}}>
         <Button
           title="Export Bill"
           onPress={() => {
