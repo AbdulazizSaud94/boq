@@ -15,6 +15,8 @@ import NsBill from "./billComp/nsBill";
 
 import {
   getOsPrice,
+  getOsUnitPric,
+  getStoragePrice,
   getTotalVmsPrice,
   getTotalNsPrice,
   getBackupPrice,
@@ -28,6 +30,7 @@ import {
   getNSPrice
 } from "./getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
+import prices from ".././assets/pricing/prices.json";
 
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
@@ -51,72 +54,101 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       <View style={styles.row}>
         <Text style={styles.listName}>Virtual Machine List</Text>
       </View>
-      <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
-        <Row
-          data={[
-            "OS || PaaS",
-            "Backup",
-            "Disaster Recovery",
-            "Storage",
-            "Quantity",
-            <div>
-              {isPrinting === false && (
-                <Text style={styles.textHead}>Action</Text>
-              )}
-            </div>
-          ]}
-          style={styles.head}
-          textStyle={styles.textHead}
-        />
-
-        {vmList.map((item: vmItem, index: number) => (
+      {vmList.map((item: vmItem, index: number) => (
+        <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
           <Row
+            data={["Item", "Quantity", "Unit Price", "Total Price"]}
+            style={styles.head}
+            textStyle={styles.textHead}
+          />
+
+          <Rows
             data={[
-              <Text style={styles.cell}>
-                {item.os} - {item.item}
-                {"\n"}
-                <Text style={styles.amount}>
-                  ({getOsPrice(item.os, item.item, item.qty)} SAR)
+              [
+                <Text style={styles.cell}>
+                  Size - OS:{" "}
+                  <Text style={styles.amount}>
+                    {item.item} - {item.os}
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>{item.qty}</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getOsUnitPric(item.os, item.item)}) SAR
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getOsPrice(item.os, item.item, item.qty)}) SAR
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.backup} {"\n"}
-                <Text style={styles.amount}>
-                  ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+              ],
+              [
+                <Text style={styles.cell}>Storage (SSD)</Text>,
+                <Text style={styles.cell}>{item.storage} GB</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({prices.storage.toFixed(2)}) SAR
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getStoragePrice(item.storage)}) SAR
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.recovery} {"\n"}
-                <Text style={styles.amount}>
-                  ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
-                  SAR)
+              ],
+              [
+                <Text style={styles.cell}>
+                  Backup: <Text style={styles.amount}>{item.backup}</Text>
+                </Text>,
+                <Text style={styles.cell}>-</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getBackupPrice(item.storage, item.qty, item.backup)}) SAR
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getBackupPrice(item.storage, item.qty, item.backup)})
+                      SAR
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>{item.storage} GB</Text>,
-              <Text style={styles.cell}>{item.qty}</Text>,
-              <div>
-                {isPrinting === false && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setTotalVmPrice(
-                        Math.abs(
-                          Number(totalVmPrice) - Number(getVmPrice(item))
-                        )
-                      );
-                      removeVm(index);
-                    }}
-                  >
-                    <Text style={styles.removeButton}> Remove VM </Text>
-                  </TouchableOpacity>
-                )}
-              </div>
+              ],
+              [
+                <Text style={styles.cell}>
+                  Disaster Recovery:{" "}
+                  <Text style={styles.amount}>{item.recovery}</Text>
+                </Text>,
+                <Text style={styles.cell}>-</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getDRecoveryPrice(item.qty, item.storage, item.recovery)})
+                    SAR
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      (
+                      {getDRecoveryPrice(item.qty, item.storage, item.recovery)}
+                      ) SAR
+                    </Text>
+                  </Text>
+                </Text>
+              ]
             ]}
             textStyle={styles.textRow}
           />
-        ))}
-      </Table>
+        </Table>
+      ))}
       {vmList.length === 0 && (
-        <Text style={styles.row}>No Virtual Machines Added</Text>
+        <Text style={{ marginTop: 10 }}>No Virtual Machines Added</Text>
       )}
       <Text style={{ marginTop: 20 }}>
         Price All of VMs ={" "}
@@ -125,88 +157,103 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>
-      <View
-        style={{
-          borderBottomColor: "#989898",
-          borderBottomWidth: 2,
-          marginTop: 70,
-          marginBottom: 10
-        }}
-      />
       <View style={styles.row}>
         <Text style={styles.listName}>Network & Storage Product List</Text>
       </View>
       <View>
-        <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
-          <Row
-            data={[
-              "# IPs",
-              "Load Balancer & WAF",
-              " Internet Bandwith",
-              "Archive",
-              "Fileshare",
-              <div>
-                {isPrinting === false && (
-                  <Text style={styles.textHead}>Action</Text>
-                )}
-              </div>
-            ]}
-            style={styles.head}
-            textStyle={styles.textHead}
-          />
-
-          {nsList.map((item: nsItem, index: number) => (
+        {nsList.map((item: nsItem, index: number) => (
+          <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
             <Row
+              data={["Item", "Quantity", "Unit Price", "Total Price"]}
+              style={styles.head}
+              textStyle={styles.textHead}
+            />
+            <Rows
               data={[
-                <Text style={styles.cell}>
-                  {item.publicIp} IPs{"\n"}
-                  <Text style={styles.amount}>
-                    ({getPublicIpPrice(item.publicIp)} SAR)
+                [
+                  <Text style={styles.cell}>Public IPs</Text>,
+                  <Text style={styles.cell}>{item.publicIp}</Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({prices.ip.toFixed(2)}) SAR
+                    </Text>
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getPublicIpPrice(item.publicIp)}) SAR
+                    </Text>
                   </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.loadBAndWaf} / Application{"\n"}
-                  <Text style={styles.amount}>
-                    ({getLodBAndWafPrice(item.loadBAndWaf)} SAR)
+                ],
+                [
+                  <Text style={styles.cell}>Load Balancer & WAF</Text>,
+                  <Text style={styles.cell}>
+                    {item.loadBAndWaf} / Application
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({prices.loadBalacerAndWaf.toFixed(2)}) SAR
+                    </Text>
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getLodBAndWafPrice(item.loadBAndWaf)}) SAR
+                    </Text>
                   </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.netBandwithGb} GB{"\n"}
-                  <Text style={styles.amount}>
-                    ({getNetBandwithPrice(item.netBandwithGb)} SAR)
+                ],
+
+                [
+                  <Text style={styles.cell}>Internet Bandwith</Text>,
+                  <Text style={styles.cell}>
+                    {item.netBandwithGb} GB
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({prices.bandwith.toFixed(2)}) SAR
+                    </Text>
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getNetBandwithPrice(item.netBandwithGb)}) SAR
+                    </Text>
                   </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.archiveGb} GB{"\n"}
-                  <Text style={styles.amount}>
-                    ({getArchivePrice(item.archiveGb)} SAR)
+                ],
+                [
+                  <Text style={styles.cell}>Archive</Text>,
+                  <Text style={styles.cell}>
+                    {item.archiveGb} GB
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({prices.archive.toFixed(2)}) SAR
+                    </Text>
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getArchivePrice(item.archiveGb)}) SAR
+                    </Text>
                   </Text>
-                </Text>,
-                <Text style={styles.cell}>
-                  {item.fileShareGb} GB{"\n"}
-                  <Text style={styles.amount}>
-                    ({getFileSharePrice(item.fileShareGb)} SAR)
+                ],
+                [
+                  <Text style={styles.cell}>Fileshare</Text>,
+                  <Text style={styles.cell}>
+                    {item.fileShareGb} GB
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({prices.fileShare.toFixed(2)}) SAR
+                    </Text>
+                  </Text>,
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getFileSharePrice(item.fileShareGb)}) SAR
+                    </Text>
                   </Text>
-                </Text>,
-                <div>
-                  {isPrinting === false && (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setTotalNsPrice(
-                          Math.abs(totalNsPrice - Number(getNSPrice(item)))
-                        );
-                        removeNs(index);
-                      }}
-                    >
-                      <Text style={styles.removeButton}> Remove Item </Text>
-                    </TouchableOpacity>
-                  )}
-                </div>
+                ]
               ]}
               textStyle={styles.textRow}
             />
-          ))}
-        </Table>
+          </Table>
+        ))}
         {nsList.length === 0 && (
           <Text style={styles.row}>No Network & Storage items added</Text>
         )}
@@ -218,7 +265,22 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           </Text>
         </Text>
       </View>
-      <View style={styles.row}>
+      <View
+        style={{
+          borderBottomColor: "#989898",
+          borderBottomWidth: 2,
+          marginTop: 40,
+          marginBottom: 10
+        }}
+      />
+      <Text style={{ marginTop: 20 }}>
+          OverAll Price ={" "}
+          <Text style={styles.amount}>
+            {Number(totalNsPrice+totalVmPrice).toFixed(2)} SAR{" "}
+            <Text style={{ color: "black" }}>Monthly</Text>
+          </Text>
+        </Text>
+      <View style={{flexDirection: "row",marginTop: 15}}>
         <Button
           title="Export Bill"
           onPress={() => {
@@ -262,15 +324,14 @@ const styles = StyleSheet.create({
   },
   listName: {
     fontWeight: "bold",
-    fontSize: 18,
-    marginBottom: 10
+    fontSize: 18
   },
   unit: {
     color: "#04762C"
   },
   row: {
     flexDirection: "row",
-    marginTop: 20
+    marginTop: 50
   },
   cell: {
     padding: 3,

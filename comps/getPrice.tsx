@@ -1,7 +1,6 @@
 import prices from ".././assets/pricing/prices.json";
 
 export function getOsPrice(os: string, size: string, qty: number) {
-  console.log(os);
   switch (os) {
     case "MariaDB":
       return (prices["CentOS" + size] * qty).toFixed(2);
@@ -13,6 +12,21 @@ export function getOsPrice(os: string, size: string, qty: number) {
       return (prices["CentOS" + size] * qty).toFixed(2);
     default:
       return (prices[os + size] * qty).toFixed(2);
+  }
+}
+
+export function getOsUnitPric(os: string, size: string) {
+  switch (os) {
+    case "MariaDB":
+      return (prices["CentOS" + size]).toFixed(2);
+    case "PostgreSQL":
+      return (prices["CentOS" + size]).toFixed(2);
+    case "Docker":
+      return (prices["CentOS" + size]).toFixed(2);
+    case "MicrosoftSQL":
+      return (prices["CentOS" + size]).toFixed(2);
+    default:
+      return (prices[os + size]).toFixed(2);
   }
 }
 
@@ -98,7 +112,8 @@ export function getVmPrice(item) {
     total +
     Number(getOsPrice(item.os, item.item, item.qty)) +
     Number(getBackupPrice(item.storage, item.qty, item.backup)) +
-    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery));
+    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery))+
+    Number(getStoragePrice(item.storage));
   return total.toFixed(2);
 }
 
