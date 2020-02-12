@@ -10,7 +10,9 @@ const vmList = ({ vmList, removeVm }) => {
       <View>
         {vmList.length > 0 && (
           <Text style={styles.listHeadr}>
-            QTY - Size - OS - Storage - Backup - DR
+            QTY - Size - OS
+            
+             - Storage - Backup - DR
           </Text>
         )}
         {vmList.length === 0 && <Text style={styles.roew}>No VMs Added</Text>}

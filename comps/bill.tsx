@@ -15,6 +15,8 @@ import NsBill from "./billComp/nsBill";
 
 import {
   getOsPrice,
+  getOsUnitPric,
+  getStoragePrice,
   getTotalVmsPrice,
   getTotalNsPrice,
   getBackupPrice,
@@ -28,6 +30,7 @@ import {
   getNSPrice
 } from "./getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
+import prices from ".././assets/pricing/prices.json";
 
 const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
@@ -51,70 +54,83 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       <View style={styles.row}>
         <Text style={styles.listName}>Virtual Machine List</Text>
       </View>
-      <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
-        <Row
-          data={[
-            "OS || PaaS",
-            "Backup",
-            "Disaster Recovery",
-            "Storage",
-            "Quantity",
-            <div>
-              {isPrinting === false && (
-                <Text style={styles.textHead}>Action</Text>
-              )}
-            </div>
-          ]}
-          style={styles.head}
-          textStyle={styles.textHead}
-        />
-
-        {vmList.map((item: vmItem, index: number) => (
+      {vmList.map((item: vmItem, index: number) => (
+        <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
           <Row
+            data={["Item", "Quantity", "Unit Price", "Total Price"]}
+            style={styles.head}
+            textStyle={styles.textHead}
+          />
+
+          <Rows
             data={[
-              <Text style={styles.cell}>
-                {item.os} - {item.item}
-                {"\n"}
-                <Text style={styles.amount}>
-                  ({getOsPrice(item.os, item.item, item.qty)} SAR)
+              [
+                <Text style={styles.cell}>Size - OS: <Text style={styles.amount}>{item.item} - {item.os}</Text></Text>,
+                <Text style={styles.cell}>{item.qty}</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getOsUnitPric(item.os, item.item)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.backup} {"\n"}
-                <Text style={styles.amount}>
-                  ({getBackupPrice(item.storage, item.qty, item.backup)} SAR)
+              ],
+              [
+                <Text style={styles.cell}>Storage (SSD)</Text>,
+                <Text style={styles.cell}>{item.storage} GB</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>({prices.storage} SAR)</Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getStoragePrice(item.storage)} SAR)
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>
-                {item.recovery} {"\n"}
-                <Text style={styles.amount}>
-                  ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}{" "}
-                  SAR)
+              ],
+              [
+                <Text style={styles.cell}>Backup: <Text style={styles.amount}>{item.backup}</Text></Text>,
+                <Text style={styles.cell}>-</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getOsUnitPric(item.os, item.item)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                    </Text>
+                  </Text>
                 </Text>
-              </Text>,
-              <Text style={styles.cell}>{item.storage} GB</Text>,
-              <Text style={styles.cell}>{item.qty}</Text>,
-              <div>
-                {isPrinting === false && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setTotalVmPrice(
-                        Math.abs(
-                          Number(totalVmPrice) - Number(getVmPrice(item))
-                        )
-                      );
-                      removeVm(index);
-                    }}
-                  >
-                    <Text style={styles.removeButton}> Remove VM </Text>
-                  </TouchableOpacity>
-                )}
-              </div>
+              ],
+              [
+                <Text style={styles.cell}>Disaster Recovery:<Text style={styles.amount}>{item.backup}</Text></Text>,
+                <Text style={styles.cell}>{item.storage} GB</Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.amount}>
+                    ({getOsUnitPric(item.os, item.item)} SAR)
+                  </Text>
+                </Text>,
+                <Text style={styles.cell}>
+                  <Text style={styles.cell}>
+                    <Text style={styles.amount}>
+                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                    </Text>
+                  </Text>
+                </Text>
+              ]
             ]}
             textStyle={styles.textRow}
           />
-        ))}
-      </Table>
+        </Table>
+      ))}
       {vmList.length === 0 && (
         <Text style={styles.row}>No Virtual Machines Added</Text>
       )}
