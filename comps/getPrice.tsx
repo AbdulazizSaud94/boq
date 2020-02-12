@@ -112,7 +112,8 @@ export function getVmPrice(item) {
     total +
     Number(getOsPrice(item.os, item.item, item.qty)) +
     Number(getBackupPrice(item.storage, item.qty, item.backup)) +
-    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery));
+    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery))+
+    Number(getStoragePrice(item.storage));
   return total.toFixed(2);
 }
 

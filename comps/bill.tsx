@@ -69,13 +69,13 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>{item.qty}</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getOsUnitPric(item.os, item.item)} SAR)
+                    ({getOsUnitPric(item.os, item.item)}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                      ({getOsPrice(item.os, item.item, item.qty)}) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -84,12 +84,12 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>Storage (SSD)</Text>,
                 <Text style={styles.cell}>{item.storage} GB</Text>,
                 <Text style={styles.cell}>
-                  <Text style={styles.amount}>({prices.storage} SAR)</Text>
+                  <Text style={styles.amount}>({prices.storage}) SAR</Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getStoragePrice(item.storage)} SAR)
+                      ({getStoragePrice(item.storage)}) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -99,29 +99,29 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getOsUnitPric(item.os, item.item)} SAR)
+                    ({getBackupPrice(item.storage, item.qty, item.backup)}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                      ({getBackupPrice(item.storage, item.qty, item.backup)}) SAR
                     </Text>
                   </Text>
                 </Text>
               ],
               [
-                <Text style={styles.cell}>Disaster Recovery:<Text style={styles.amount}>{item.backup}</Text></Text>,
-                <Text style={styles.cell}>{item.storage} GB</Text>,
+                <Text style={styles.cell}>Disaster Recovery: <Text style={styles.amount}>{item.recovery}</Text></Text>,
+                <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getOsUnitPric(item.os, item.item)} SAR)
+                    ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getOsPrice(item.os, item.item, item.qty)} SAR)
+                      ({getDRecoveryPrice(item.qty, item.storage, item.recovery)}) SAR
                     </Text>
                   </Text>
                 </Text>
