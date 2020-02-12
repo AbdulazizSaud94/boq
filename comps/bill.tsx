@@ -57,7 +57,29 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       {vmList.map((item: vmItem, index: number) => (
         <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
           <Row
-            data={["Item", "Quantity", "Unit Price", "Total Price"]}
+            data={[
+              <Text style={styles.textHead}>
+                Item{" "}
+                {isPrinting === false && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setTotalVmPrice(
+                        Math.abs(
+                          Number(totalVmPrice) - Number(getVmPrice(item))
+                        )
+                      );
+                      removeVm(index);
+                    }}
+                  >
+                    <Text style={styles.removeButton}> Remove VM </Text>
+                  </TouchableOpacity>
+                )}
+              </Text>,
+
+              "Quantity",
+              "Unit Price",
+              "Total Price"
+            ]}
             style={styles.head}
             textStyle={styles.textHead}
           />
@@ -164,7 +186,26 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         {nsList.map((item: nsItem, index: number) => (
           <Table borderStyle={{ borderWidth: 2, borderColor: "#004028" }}>
             <Row
-              data={["Item", "Quantity", "Unit Price", "Total Price"]}
+              data={[
+                <Text style={styles.textHead}>
+                  Item{" "}
+                  {isPrinting === false && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setTotalNsPrice(
+                          Math.abs(totalNsPrice - Number(getNSPrice(item)))
+                        );
+                        removeNs(index);
+                      }}
+                    >
+                      <Text style={styles.removeButton}> Remove Item </Text>
+                    </TouchableOpacity>
+                  )}
+                </Text>,
+                "Quantity",
+                "Unit Price",
+                "Total Price"
+              ]}
               style={styles.head}
               textStyle={styles.textHead}
             />
@@ -203,9 +244,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
 
                 [
                   <Text style={styles.cell}>Internet Bandwith</Text>,
-                  <Text style={styles.cell}>
-                    {item.netBandwithGb} GB
-                  </Text>,
+                  <Text style={styles.cell}>{item.netBandwithGb} GB</Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
                       ({prices.bandwith.toFixed(2)}) SAR
@@ -219,9 +258,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 ],
                 [
                   <Text style={styles.cell}>Archive</Text>,
-                  <Text style={styles.cell}>
-                    {item.archiveGb} GB
-                  </Text>,
+                  <Text style={styles.cell}>{item.archiveGb} GB</Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
                       ({prices.archive.toFixed(2)}) SAR
@@ -235,9 +272,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 ],
                 [
                   <Text style={styles.cell}>Fileshare</Text>,
-                  <Text style={styles.cell}>
-                    {item.fileShareGb} GB
-                  </Text>,
+                  <Text style={styles.cell}>{item.fileShareGb} GB</Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
                       ({prices.fileShare.toFixed(2)}) SAR
@@ -255,7 +290,9 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           </Table>
         ))}
         {nsList.length === 0 && (
-          <Text style={styles.row}>No Network & Storage items added</Text>
+          <Text style={{ marginTop: 10 }}>
+            No Network & Storage items added
+          </Text>
         )}
         <Text style={{ marginTop: 20 }}>
           Price of All Network & Storage ={" "}
@@ -274,13 +311,13 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
         }}
       />
       <Text style={{ marginTop: 20 }}>
-          OverAll Price ={" "}
-          <Text style={styles.amount}>
-            {Number(totalNsPrice+totalVmPrice).toFixed(2)} SAR{" "}
-            <Text style={{ color: "black" }}>Monthly</Text>
-          </Text>
+        OverAll Price ={" "}
+        <Text style={styles.amount}>
+          {Number(totalNsPrice + totalVmPrice).toFixed(2)} SAR{" "}
+          <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
-      <View style={{flexDirection: "row",marginTop: 15}}>
+      </Text>
+      <View style={{ flexDirection: "row", marginTop: 15 }}>
         <Button
           title="Export Bill"
           onPress={() => {
@@ -313,7 +350,8 @@ const styles = StyleSheet.create({
   removeButton: {
     color: "#C42424",
     textDecorationLine: "underline",
-    marginLeft: 15
+    marginLeft: 2,
+    fontSize: 11
   },
   amount: {
     color: "green"
