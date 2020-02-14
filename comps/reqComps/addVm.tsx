@@ -40,17 +40,7 @@ const addVm = ({ submitVm, vmList, prices }) => {
   const [qty, setQty] = useState(1);
   const [storage, setStorage] = useState(32);
 
-  const calculatePrice = () => {
-    let fRecovery: number = 0;
-    let fVmPrice: number = prices[os + item];
-    let fStorage: number = storage * prices.storage;
-    let fBackup: number = prices["backup" + backup];
-    if (recovery === "Yes") {
-      fRecovery += prices.disasterRecovery;
-    }
-    let totalPrice: number = (fVmPrice * qty).toFixed(2);
-    return totalPrice;
-  };
+
 
   const validateAndSubmit = () => {
     let quantity: number = parseInt(qty, 10);
@@ -59,8 +49,8 @@ const addVm = ({ submitVm, vmList, prices }) => {
     if (qty > 0 && Number.isInteger(quantity)) {
       //Check storage field
       if (storage >= 32 && Number.isInteger(gbStorage)) {
-        let price: number = calculatePrice();
-        submitVm(item, os, backup, recovery, quantity, gbStorage, price);
+
+        submitVm(item, os, backup, recovery, quantity, gbStorage);
       } else {
         alert("Please enter a valid storage");
       }

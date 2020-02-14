@@ -21,10 +21,11 @@ const nsList = ({ nsList, removeNs }) => {
               - Internet Bandwith:{" "}
               <Text style={styles.unit}>{item.netBandwithGb} GB</Text> -
               Archive: <Text style={styles.unit}>{item.archiveGb} GB</Text> -
-              Fileshare: <Text style={styles.unit}>{item.fileShareGb} GB</Text>
+              Fileshare: <Text style={styles.unit}>{item.fileShareGb} GB</Text> - JumpServer:{" "}
+              <Text style={styles.unit}>{item.jumpServer}</Text>
               {"  "}
-              <TouchableOpacity style={styles.removeButton} onPress={removeNs}>
-                <Text> Remove NS </Text>
+              <TouchableOpacity  onPress={removeNs}>
+                <Text style={styles.removeButton}> Remove NS </Text>
               </TouchableOpacity>
             </Text>
           </View>

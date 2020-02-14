@@ -22,15 +22,7 @@ const addNS = ({ submitNs, nsList, prices }) => {
   const [netBandwithGb, setNetBandwithGb] = useState(0);
   const [archiveGb, setArchiveGb] = useState(0);
   const [fileShareGb, setFileShareGb] = useState(0);
-
-  const calculatePrice = () => {
-    let pIp: number = Number(publicIp) * prices.ip;
-    let pLoadBAndWaf: number = Number(loadBAndWaf) * prices.loadBalacerAndWaf;
-    let pArchive: number = Number(archiveGb) * prices.archive;
-    let pNetBandwithGb: number = Number(netBandwithGb) * prices.bandwith;
-    let pFileShare: number = Number(fileShareGb) * prices.fileShare;
-    return pIp + pLoadBAndWaf + pArchive + pNetBandwithGb + pFileShare;
-  };
+  const [jumpServer, setJumServer] = useState(0);
 
   const validateAndSubmit = () => {
     let publicIpS: number = parseInt(publicIp, 10);
@@ -38,6 +30,7 @@ const addNS = ({ submitNs, nsList, prices }) => {
     let netBandwithGbS: number = parseInt(netBandwithGb, 10);
     let archiveGbS: number = parseInt(archiveGb, 10);
     let fileShareGbS: number = parseInt(fileShareGb, 10);
+    let jumpServerS: number = parseInt(jumpServer, 10);
     //check IP field
     if (publicIp >= 0 && Number.isInteger(publicIpS)) {
       //Check WAF and Load balacer field
@@ -45,15 +38,18 @@ const addNS = ({ submitNs, nsList, prices }) => {
         if (netBandwithGb >= 0 && Number.isInteger(netBandwithGbS)) {
           if (archiveGb >= 0 && Number.isInteger(archiveGbS)) {
             if (fileShareGb >= 0 && Number.isInteger(fileShareGbS)) {
-              let price: number = calculatePrice().toFixed(2);
-              submitNs(
-                publicIpS,
-                loadBAndWafS,
-                netBandwithGb,
-                archiveGbS,
-                fileShareGb,
-                price
-              );
+              if (jumpServer >= 0 && Number.isInteger(jumpServerS)) {
+                submitNs(
+                  publicIpS,
+                  loadBAndWafS,
+                  netBandwithGb,
+                  archiveGbS,
+                  fileShareGb,
+                  jumpServer
+                );
+              } else {
+                alert("Please enter a valid Jumpserver value");
+              }
             } else {
               alert("Please enter a valid Fileshare value");
             }
@@ -88,11 +84,11 @@ const addNS = ({ submitNs, nsList, prices }) => {
           </View>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>Archive:</Text>
+              <Text style={styles.subtitle}>Egress Internet Bandwith:</Text>
               <TextInput
                 style={styles.textField}
-                onChangeText={setArchiveGb}
-                value={archiveGb}
+                onChangeText={setNetBandwithGb}
+                value={netBandwithGb}
               />
               <Text style={styles.unit}>GB</Text>
             </View>
@@ -112,9 +108,7 @@ const addNS = ({ submitNs, nsList, prices }) => {
         <View style={styles.row}>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>
-                Application Load Balancer & WAF:
-              </Text>
+              <Text style={styles.subtitle}>Load Balancer & WAF:</Text>
               <TextInput
                 style={styles.textField}
                 onChangeText={setLoadBAndWaf}
@@ -125,15 +119,26 @@ const addNS = ({ submitNs, nsList, prices }) => {
           </View>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>Egress Internet Bandwith:</Text>
+              <Text style={styles.subtitle}>Number of JumpServers:</Text>
               <TextInput
                 style={styles.textField}
-                onChangeText={setNetBandwithGb}
-                value={netBandwithGb}
+                onChangeText={setJumServer}
+                value={jumpServer}
+              />
+            </View>
+          </View>
+          <View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Text style={styles.subtitle}>Archive:</Text>
+              <TextInput
+                style={styles.textField}
+                onChangeText={setArchiveGb}
+                value={archiveGb}
               />
               <Text style={styles.unit}>GB</Text>
             </View>
           </View>
+          
         </View>
         <View style={{ flex: 1, flexDirection: "row-reverse", marginTop: 15 }}>
           <View style={styles.btn}>

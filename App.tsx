@@ -34,7 +34,7 @@ export default function App() {
   const PagePan = pages[page];
   const [nsList, addNs] = useState([]);
 
-  const submitVm = (v1, v2, v3, v4, v5, v6, v7) => {
+  const submitVm = (v1, v2, v3, v4, v5, v6) => {
     addVm([
       ...vmList,
       {
@@ -44,7 +44,6 @@ export default function App() {
         recovery: v4,
         qty: v5,
         storage: v6,
-        price: v7,
         
       }
     ]);
@@ -59,7 +58,7 @@ export default function App() {
         netBandwithGb: v3,
         archiveGb: v4,
         fileShareGb: v5,
-        price: v6
+        jumpServer: v6
       }
     ]);
   };
