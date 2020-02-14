@@ -101,13 +101,13 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>{item.qty}</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getVmUnitPrice(item.os, item.item)}) SAR
+                    ({numberWithCommas(Number(getVmUnitPrice(item.os, item.item)))}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getVmPrice(item.os, item.item, item.qty)}) SAR
+                      ({numberWithCommas(Number(getVmPrice(item.os, item.item, item.qty)))}) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -122,13 +122,13 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>{item.qty}</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getOsLicenseUnitPric(item.os, item.item)}) SAR
+                    ({numberWithCommas(Number(getOsLicenseUnitPric(item.os, item.item)))}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getOsLicensePrice(item.os, item.item, item.qty)}) SAR
+                      ({numberWithCommas(Number(getOsLicensePrice(item.os, item.item, item.qty)))}) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -144,7 +144,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getStoragePrice(item.storage)}) SAR
+                      ({numberWithCommas(getStoragePrice(item.storage))}) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -156,13 +156,13 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getBackupPrice(item.storage, item.qty, item.backup)}) SAR
+                    ({numberWithCommas(getBackupPrice(item.storage, item.qty, item.backup))}) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getBackupPrice(item.storage, item.qty, item.backup)})
+                      ({numberWithCommas(getBackupPrice(item.storage, item.qty, item.backup))})
                       SAR
                     </Text>
                   </Text>
@@ -176,7 +176,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({getDRecoveryPrice(item.qty, item.storage, item.recovery)})
+                    ({numberWithCommas(getDRecoveryPrice(item.qty, item.storage, item.recovery))})
                     SAR
                   </Text>
                 </Text>,
@@ -184,7 +184,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
                       (
-                      {getDRecoveryPrice(item.qty, item.storage, item.recovery)}
+                      {numberWithCommas(getDRecoveryPrice(item.qty, item.storage, item.recovery))}
                       ) SAR
                     </Text>
                   </Text>
@@ -247,7 +247,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getPublicIpPrice(item.publicIp)}) SAR
+                      ({numberWithCommas(getPublicIpPrice(item.publicIp))}) SAR
                     </Text>
                   </Text>
                 ],
@@ -258,7 +258,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(prices.loadBalacerAndWaf.toFixed(2))}) SAR
+                      ({numberWithCommas(Number(prices.loadBalacerAndWaf.toFixed(2)))}) SAR
                     </Text>
                   </Text>,
                   <Text style={styles.cell}>
@@ -278,7 +278,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getNetBandwithPrice(item.netBandwithGb)}) SAR
+                      ({numberWithCommas(getNetBandwithPrice(item.netBandwithGb))}) SAR
                     </Text>
                   </Text>
                 ],
@@ -292,7 +292,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getArchivePrice(item.archiveGb)}) SAR
+                      ({numberWithCommas(getArchivePrice(item.archiveGb))}) SAR
                     </Text>
                   </Text>
                 ],
@@ -306,7 +306,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getFileSharePrice(item.fileShareGb)}) SAR
+                      ({numberWithCommas(getFileSharePrice(item.fileShareGb))}) SAR
                     </Text>
                   </Text>
                 ],
@@ -320,7 +320,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({getJumpServerPrice(item.jumpServer)}) SAR
+                      ({numberWithCommas(getJumpServerPrice(item.jumpServer))}) SAR
                     </Text>
                   </Text>
                 ]
