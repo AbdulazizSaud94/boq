@@ -1,24 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 
-// const list = {
-//   win:'windows 2012',
-//   red:'red hat 6'
-// }
-// export default function App() {
-//   const [val, setVal] = useState();
-
-//   return (
-//     <View style={{alignItems:"center", justifyContent:"center", flex:1}}>
-//       <Picker selectedValue={val} onValueChange={setVal}>
-//       {Object.entries(list).map((i)=> <PickerItem key={i[0]} label={i[1]} value={i[0]} />)}
-
-//       </Picker>
-
-//     </View>
-//   );
-// }
-
 import Header from "./comps/header";
 import req from "./comps/req";
 import bill from "./comps/bill";
@@ -26,14 +8,13 @@ import prices from "./assets/pricing/prices.json";
 
 const pages = { req, bill };
 
-
 export default function App() {
   const [vmList, addVm] = useState([]);
   const [page, setPage] = useState("req");
   const [bill, setBill] = useState();
   const PagePan = pages[page];
   const [nsList, addNs] = useState([]);
-  const [env, setEnv] = useState();
+  const [env, setEnv] = useState({ number: 1, utilization: 100 });
 
   const submitVm = (v1, v2, v3, v4, v5, v6) => {
     addVm([
@@ -44,16 +25,16 @@ export default function App() {
         backup: v3,
         recovery: v4,
         qty: v5,
-        storage: v6,        
+        storage: v6
       }
     ]);
   };
 
-const submitEnv = (number, utilization) => {
+  const submitEnv = (number, utilization) => {
     setEnv({
       number: number,
       utilization: utilization
-    })
+    });
   };
 
   const submitNs = (v1, v2, v3, v4, v5, v6) => {

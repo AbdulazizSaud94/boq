@@ -84,7 +84,9 @@ export function getTotalVmsPrice(vmList) {
 export function getTotalNsPrice(nsList) {
   let totalNs: number = 0;
 
-  nsList.map((item: nsItem, index: number) => (totalNs += Number(getNSPrice(item))));
+  nsList.map(
+    (item: nsItem, index: number) => (totalNs += Number(getNSPrice(item)))
+  );
   return totalNs.toFixed(2);
 }
 
@@ -113,11 +115,10 @@ export function getJumpServerPrice(jumpServer: number) {
 }
 
 export function getVmItemPrice(item) {
-  console.log(item);
   let total: number = 0;
   total =
     total +
-    Number(getVmPrice(item.os, item.item, item.qty))+
+    Number(getVmPrice(item.os, item.item, item.qty)) +
     Number(getOsLicensePrice(item.os, item.item, item.qty)) +
     Number(getBackupPrice(item.storage, item.qty, item.backup)) +
     Number(getDRecoveryPrice(item.qty, item.storage, item.recovery)) +
@@ -133,15 +134,27 @@ export function getNSPrice(item) {
     Number(getLodBAndWafPrice(item.loadBAndWaf)) +
     Number(getNetBandwithPrice(item.netBandwithGb)) +
     Number(getArchivePrice(item.archiveGb)) +
-    Number(getFileSharePrice(item.fileShareGb))+Number(getJumpServerPrice(item.jumpServer));
+    Number(getFileSharePrice(item.fileShareGb)) +
+    Number(getJumpServerPrice(item.jumpServer));
   return total.toFixed(2);
 }
 
-export function getMembershipFees(env) {
-  console.log(env);
-  return (0);
+export function getMembershipFees(env, vmList) {
+  let qty: number = 0;
+  let fee: number = 0;
+  vmList.map((item: vmItem, index: number) => (qty += Number(item.qty)));
+  let tmp =
+    Number(env.number) *
+    Number(env.utilization)/100 *
+    (prices.computePrice + prices.envLicense);
+  fee = (qty * prices.endPointPrice + tmp)/12;
+  if (qty == 0) {
+    return 0;
+  } else {
+    return fee;
+  }
 }
 
 export function numberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

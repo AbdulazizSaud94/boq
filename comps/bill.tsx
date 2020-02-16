@@ -32,16 +32,17 @@ import {
   getVmUnitPrice,
   getMembershipFees,
   getJumpServerPrice,
-  numberWithCommas,
+  numberWithCommas
 } from "./getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
 import prices from ".././assets/pricing/prices.json";
 
-const bill = ({ vmList, nsList, removeVm, removeNs,env, prices }) => {
+const bill = ({ vmList, nsList, removeVm, removeNs, env, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
     Number(getTotalVmsPrice(vmList))
   );
 
+  console.log("totalVmPrice= " + totalVmPrice);
   const [totalNsPrice, setTotalNsPrice] = useState(
     Number(getTotalNsPrice(nsList))
   );
@@ -224,15 +225,19 @@ const bill = ({ vmList, nsList, removeVm, removeNs,env, prices }) => {
       <Text style={styles.prices}>
         Membership Fees ={" "}
         <Text style={styles.amount}>
-          {numberWithCommas(Number(getMembershipFees(env)).toFixed(2))} SAR{" "}
-          <Text style={{ color: "black" }}>Monthly</Text>
+          {numberWithCommas(Number(getMembershipFees(env, vmList)).toFixed(2))}{" "}
+          SAR <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>
       <Text style={styles.prices}>
         Price All of VMs ={" "}
         <Text style={styles.amount}>
-          {numberWithCommas(Number(totalVmPrice).toFixed(2))} SAR{" "}
-          <Text style={{ color: "black" }}>Monthly</Text>
+          {numberWithCommas(
+            (
+              Number(totalVmPrice) + Number(getMembershipFees(env, vmList))
+            ).toFixed(2)
+          )}{" "}
+          SAR <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>
       <View style={{ flexDirection: "row", marginTop: 45 }}>
@@ -394,7 +399,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs,env, prices }) => {
       <Text style={styles.prices}>
         OverAll Price ={" "}
         <Text style={styles.amount}>
-          {numberWithCommas(Number(totalNsPrice + totalVmPrice).toFixed(2))} SAR{" "}
+          {numberWithCommas(Number(totalNsPrice +  Number(totalVmPrice) + Number(getMembershipFees(env, vmList))).toFixed(2))} SAR{" "}
           <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>

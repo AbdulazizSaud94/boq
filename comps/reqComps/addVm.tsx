@@ -26,32 +26,34 @@ const osList = {
   Docker: "Docker Instance"
 };
 
-// const itemList={
-//   GP-Nano: "GP-Nano (1 vCPU, 0.5 GB Memory)",
 
-// }
 
-const addVm = ({ submitVm, vmList, submitEnv, prices }) => {
+const addVm = ({ submitVm, vmList, submitEnv, env, prices }) => {
   const [os, setOs] = useState("CentOS");
   const [item, setItem] = useState("GP_Large");
   const [backup, setBackup] = useState("Daily");
   const [recovery, setRecovery] = useState("Yes");
   const [qty, setQty] = useState(1);
   const [storage, setStorage] = useState(32);
-  const [environment, setEnvironment] = useState(1);
-  const [utilization, setUtilization] = useState(100);
+  const [environment, setEnvironment] = useState(env.number);
+  const [utilization, setUtilization] = useState(env.utilization);
 
   const validateAndSubmit = () => {
     let quantity: number = parseInt(qty, 10);
     let gbStorage: number = parseInt(storage, 10);
     let envs: number = parseInt(environment, 10);
+    let utilizations: number = parseInt(utilization, 10);
     //check quantity field
     if (qty > 0 && Number.isInteger(quantity)) {
       //Check storage field
       if (storage >= 32 && Number.isInteger(gbStorage)) {
         if (environment >= 0 && Number.isInteger(envs)) {
-          submitVm(item, os, backup, recovery, quantity, gbStorage);
-          submitEnv(environment, utilization);
+          if (utilization >= 0 && Number.isInteger(utilizations)) {
+            submitVm(item, os, backup, recovery, quantity, gbStorage);
+            submitEnv(environment, utilization);
+          } else {
+            alert("Please enter a valid Enviromet utilization");
+          }
         } else {
           alert("Please enter a valid Enviromet number");
         }
@@ -184,23 +186,21 @@ const addVm = ({ submitVm, vmList, submitEnv, prices }) => {
                 onChangeText={setEnvironment}
                 value={environment}
               />
-              <Text style={styles.unit}>%</Text>
             </View>
           </View>
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.subtitle}>utilization:</Text>
+              <Text style={styles.subtitle}>Utilization:</Text>
               <TextInput
                 style={styles.textField}
                 onChangeText={setUtilization}
                 value={utilization}
               />
-              <Text style={styles.unit}>%</Text>
+              <Text style={styles.unit}> %</Text>
             </View>
           </View>
           <View>
-            <View style={{ flex: 1, flexDirection: "row" }}>
-            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}></View>
           </View>
         </View>
         <View style={{ flex: 1, flexDirection: "row-reverse", marginTop: 15 }}>

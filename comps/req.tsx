@@ -25,6 +25,7 @@ const req = ({
   nsList,
   removeNs,
   submitEnv,
+  env,
   prices
 }) => {
   const [catg, setCatg] = useState("Connectivity");
@@ -37,6 +38,7 @@ const req = ({
         submitVm={submitVm}
         vmList={vmList}
         submitEnv={submitEnv}
+        env={env}
         prices={prices}
       />
       <VmList vmList={vmList} removeVm={removeVm} />
