@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/picker": "^1.1.2",
+    "@react-native-community/slider": "^2.0.8",
     "expo": "~36.0.0",
     "expo-font": "~8.0.0",
     "native-base": "^2.13.8",

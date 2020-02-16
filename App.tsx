@@ -33,6 +33,7 @@ export default function App() {
   const [bill, setBill] = useState();
   const PagePan = pages[page];
   const [nsList, addNs] = useState([]);
+  const [env, setEnv] = useState();
 
   const submitVm = (v1, v2, v3, v4, v5, v6) => {
     addVm([
@@ -43,10 +44,16 @@ export default function App() {
         backup: v3,
         recovery: v4,
         qty: v5,
-        storage: v6,
-        
+        storage: v6,        
       }
     ]);
+  };
+
+const submitEnv = (number, utilization) => {
+    setEnv({
+      number: number,
+      utilization: utilization
+    })
   };
 
   const submitNs = (v1, v2, v3, v4, v5, v6) => {
@@ -99,6 +106,8 @@ export default function App() {
           nsList={nsList}
           submitNs={submitNs}
           removeNs={removeNs}
+          submitEnv={submitEnv}
+          env={env}
           prices={prices}
         />
       </View>

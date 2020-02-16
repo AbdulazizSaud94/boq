@@ -32,12 +32,12 @@ import {
   getVmUnitPrice,
   getMembershipFees,
   getJumpServerPrice,
-  numberWithCommas
+  numberWithCommas,
 } from "./getPrice";
 import { Table, Row, Rows } from "react-native-table-component";
 import prices from ".././assets/pricing/prices.json";
 
-const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
+const bill = ({ vmList, nsList, removeVm, removeNs,env, prices }) => {
   const [totalVmPrice, setTotalVmPrice] = useState(
     Number(getTotalVmsPrice(vmList))
   );
@@ -93,21 +93,26 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             data={[
               [
                 <Text style={styles.cell}>
-                  VM:{" "}
-                  <Text style={styles.amount}>
-                    {item.item}
-                  </Text>
+                  VM: <Text style={styles.amount}>{item.item}</Text>
                 </Text>,
                 <Text style={styles.cell}>{item.qty}</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({numberWithCommas(Number(getVmUnitPrice(item.os, item.item)))}) SAR
+                    (
+                    {numberWithCommas(
+                      Number(getVmUnitPrice(item.os, item.item))
+                    )}
+                    ) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(Number(getVmPrice(item.os, item.item, item.qty)))}) SAR
+                      (
+                      {numberWithCommas(
+                        Number(getVmPrice(item.os, item.item, item.qty))
+                      )}
+                      ) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -115,20 +120,26 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
               [
                 <Text style={styles.cell}>
                   OS || Paas License:{" "}
-                  <Text style={styles.amount}>
-                    {item.os}
-                  </Text>
+                  <Text style={styles.amount}>{item.os}</Text>
                 </Text>,
                 <Text style={styles.cell}>{item.qty}</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({numberWithCommas(Number(getOsLicenseUnitPric(item.os, item.item)))}) SAR
+                    (
+                    {numberWithCommas(
+                      Number(getOsLicenseUnitPric(item.os, item.item))
+                    )}
+                    ) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(Number(getOsLicensePrice(item.os, item.item, item.qty)))}) SAR
+                      (
+                      {numberWithCommas(
+                        Number(getOsLicensePrice(item.os, item.item, item.qty))
+                      )}
+                      ) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -156,14 +167,21 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({numberWithCommas(getBackupPrice(item.storage, item.qty, item.backup))}) SAR
+                    (
+                    {numberWithCommas(
+                      getBackupPrice(item.storage, item.qty, item.backup)
+                    )}
+                    ) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(getBackupPrice(item.storage, item.qty, item.backup))})
-                      SAR
+                      (
+                      {numberWithCommas(
+                        getBackupPrice(item.storage, item.qty, item.backup)
+                      )}
+                      ) SAR
                     </Text>
                   </Text>
                 </Text>
@@ -176,15 +194,20 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                 <Text style={styles.cell}>-</Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.amount}>
-                    ({numberWithCommas(getDRecoveryPrice(item.qty, item.storage, item.recovery))})
-                    SAR
+                    (
+                    {numberWithCommas(
+                      getDRecoveryPrice(item.qty, item.storage, item.recovery)
+                    )}
+                    ) SAR
                   </Text>
                 </Text>,
                 <Text style={styles.cell}>
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
                       (
-                      {numberWithCommas(getDRecoveryPrice(item.qty, item.storage, item.recovery))}
+                      {numberWithCommas(
+                        getDRecoveryPrice(item.qty, item.storage, item.recovery)
+                      )}
                       ) SAR
                     </Text>
                   </Text>
@@ -198,14 +221,21 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
       {vmList.length === 0 && (
         <Text style={{ marginTop: 10 }}>No Virtual Machines Added</Text>
       )}
-      <Text style={{ marginTop: 20 }}>
+      <Text style={styles.prices}>
+        Membership Fees ={" "}
+        <Text style={styles.amount}>
+          {numberWithCommas(Number(getMembershipFees(env)).toFixed(2))} SAR{" "}
+          <Text style={{ color: "black" }}>Monthly</Text>
+        </Text>
+      </Text>
+      <Text style={styles.prices}>
         Price All of VMs ={" "}
         <Text style={styles.amount}>
           {numberWithCommas(Number(totalVmPrice).toFixed(2))} SAR{" "}
           <Text style={{ color: "black" }}>Monthly</Text>
         </Text>
       </Text>
-      <View style={styles.row}>
+      <View style={{ flexDirection: "row", marginTop: 45 }}>
         <Text style={styles.listName}>Network & Storage Product List</Text>
       </View>
       <View>
@@ -258,12 +288,17 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(Number(prices.loadBalacerAndWaf.toFixed(2)))}) SAR
+                      (
+                      {numberWithCommas(
+                        Number(prices.loadBalacerAndWaf.toFixed(2))
+                      )}
+                      ) SAR
                     </Text>
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(getLodBAndWafPrice(item.loadBAndWaf))}) SAR
+                      ({numberWithCommas(getLodBAndWafPrice(item.loadBAndWaf))})
+                      SAR
                     </Text>
                   </Text>
                 ],
@@ -278,7 +313,11 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(getNetBandwithPrice(item.netBandwithGb))}) SAR
+                      (
+                      {numberWithCommas(
+                        getNetBandwithPrice(item.netBandwithGb)
+                      )}
+                      ) SAR
                     </Text>
                   </Text>
                 ],
@@ -306,7 +345,8 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(getFileSharePrice(item.fileShareGb))}) SAR
+                      ({numberWithCommas(getFileSharePrice(item.fileShareGb))})
+                      SAR
                     </Text>
                   </Text>
                 ],
@@ -320,7 +360,8 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
                   </Text>,
                   <Text style={styles.cell}>
                     <Text style={styles.amount}>
-                      ({numberWithCommas(getJumpServerPrice(item.jumpServer))}) SAR
+                      ({numberWithCommas(getJumpServerPrice(item.jumpServer))})
+                      SAR
                     </Text>
                   </Text>
                 ]
@@ -334,7 +375,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
             No Network & Storage items added
           </Text>
         )}
-        <Text style={{ marginTop: 20 }}>
+        <Text style={styles.prices}>
           Price of All Network & Storage ={" "}
           <Text style={styles.amount}>
             {numberWithCommas(Number(totalNsPrice).toFixed(2))} SAR{" "}
@@ -350,7 +391,7 @@ const bill = ({ vmList, nsList, removeVm, removeNs, prices }) => {
           marginBottom: 10
         }}
       />
-      <Text style={{ marginTop: 20 }}>
+      <Text style={styles.prices}>
         OverAll Price ={" "}
         <Text style={styles.amount}>
           {numberWithCommas(Number(totalNsPrice + totalVmPrice).toFixed(2))} SAR{" "}
@@ -415,6 +456,7 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingLeft: 10
   },
+  prices: { marginTop: 20, fontWeight: "bold", fontSize: 14 },
   head: { height: 40, backgroundColor: "#DCDCE0" },
   textRow: { margin: 6 },
   textHead: { margin: 6, fontWeight: "bold" }

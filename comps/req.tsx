@@ -9,7 +9,7 @@ import {
   Picker,
   Modal,
   TouchableHighlight,
-  Alert
+  Alert,
 } from "react-native";
 import { Card } from "react-native-elements";
 import AddVm from "./reqComps/addVm";
@@ -17,26 +17,40 @@ import VmList from "./reqComps/vmList";
 import AddNS from "./reqComps/addNS";
 import NsList from "./reqComps/nsList";
 
-const req = ({ submitVm, vmList, removeVm, submitNs, nsList, removeNs, prices }) => {
+const req = ({
+  submitVm,
+  vmList,
+  removeVm,
+  submitNs,
+  nsList,
+  removeNs,
+  submitEnv,
+  prices
+}) => {
   const [catg, setCatg] = useState("Connectivity");
   const [item, setItem] = useState("GP-Medium (4 vCPU, 8GB Memory)");
   const [qty, setQty] = useState("0");
   return (
     <Container>
       {/* <Content> */}
-        <AddVm submitVm={submitVm} vmList={vmList}  prices={prices} />
-        <VmList vmList={vmList} removeVm={removeVm} />
-        <View
-          style={{
-            borderBottomColor: "#989898",
-            borderBottomWidth: 2,
-            marginTop: 40,
-            marginBottom: 20
-          }}
-        />
-        <AddNS submitNs={submitNs} nsList={nsList} prices={prices} />
-        <NsList  nsList={nsList} removeNs={removeNs} />
-        <View style={{marginBottom:30}}></View>
+      <AddVm
+        submitVm={submitVm}
+        vmList={vmList}
+        submitEnv={submitEnv}
+        prices={prices}
+      />
+      <VmList vmList={vmList} removeVm={removeVm} />
+      <View
+        style={{
+          borderBottomColor: "#989898",
+          borderBottomWidth: 2,
+          marginTop: 40,
+          marginBottom: 20
+        }}
+      />
+      <AddNS submitNs={submitNs} nsList={nsList} prices={prices} />
+      <NsList nsList={nsList} removeNs={removeNs} />
+      <View style={{ marginBottom: 30 }}></View>
       {/* </Content> */}
     </Container>
   );

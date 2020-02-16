@@ -113,6 +113,7 @@ export function getJumpServerPrice(jumpServer: number) {
 }
 
 export function getVmItemPrice(item) {
+  console.log(item);
   let total: number = 0;
   total =
     total +
@@ -136,8 +137,9 @@ export function getNSPrice(item) {
   return total.toFixed(2);
 }
 
-export function getMembershipFees(qty: number) {
-  return qty.toFixed(0);
+export function getMembershipFees(env) {
+  console.log(env);
+  return (0);
 }
 
 export function numberWithCommas(number) {
