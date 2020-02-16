@@ -21,10 +21,10 @@ const vmList = ({ vmList, removeVm }) => {
             <Text>
               {item.qty}   -   {item.item}   -   {item.os}   -   {item.storage} GB   -   {item.backup}   -   {item.recovery}
               <TouchableOpacity
-                style={styles.removeButton}
+                
                 onPress={() => removeVm(index)}
               >
-                <Text> Remove VM </Text>
+                <Text style={styles.removeButton}> Remove VM </Text>
               </TouchableOpacity>
             </Text>
           </View>

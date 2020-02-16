@@ -1,32 +1,36 @@
 import prices from ".././assets/pricing/prices.json";
 
-export function getOsPrice(os: string, size: string, qty: number) {
+export function getVmPrice(os: string, size: string, qty: number) {
+  return (prices["CentOS" + size] * qty).toFixed(2);
+}
+
+export function getVmUnitPrice(os: string, size: string, qty: number) {
+  return prices["CentOS" + size].toFixed(2);
+}
+
+export function getOsLicensePrice(os: string, size: string, qty: number) {
   switch (os) {
-    case "MariaDB":
-      return (prices["CentOS" + size] * qty).toFixed(2);
-    case "PostgreSQL":
-      return (prices["CentOS" + size] * qty).toFixed(2);
-    case "Docker":
-      return (prices["CentOS" + size] * qty).toFixed(2);
-    case "MicrosoftSQL":
-      return (prices["CentOS" + size] * qty).toFixed(2);
-    default:
+    case "Redhat":
       return (prices[os + size] * qty).toFixed(2);
+    case "Windows16":
+      return (prices[os + size] * qty).toFixed(2);
+    case "Windows12":
+      return (prices[os + size] * qty).toFixed(2);
+    default:
+      return (0).toFixed(2);
   }
 }
 
-export function getOsUnitPric(os: string, size: string) {
+export function getOsLicenseUnitPric(os: string, size: string) {
   switch (os) {
-    case "MariaDB":
-      return (prices["CentOS" + size]).toFixed(2);
-    case "PostgreSQL":
-      return (prices["CentOS" + size]).toFixed(2);
-    case "Docker":
-      return (prices["CentOS" + size]).toFixed(2);
-    case "MicrosoftSQL":
-      return (prices["CentOS" + size]).toFixed(2);
+    case "Redhat":
+      return prices[os + size].toFixed(2);
+    case "Windows16":
+      return prices[os + size].toFixed(2);
+    case "Windows12":
+      return prices[os + size].toFixed(2);
     default:
-      return (prices[os + size]).toFixed(2);
+      return (0).toFixed(2);
   }
 }
 
@@ -72,7 +76,7 @@ export function getTotalVmsPrice(vmList) {
   let totalVm: number = 0;
   vmList.map(
     (item: vmItem, index: number) =>
-      (totalVm = Number(getVmPrice(item)) + totalVm)
+      (totalVm = Number(getVmItemPrice(item)) + totalVm)
   );
   return totalVm.toFixed(2);
 }
@@ -81,7 +85,7 @@ export function getTotalNsPrice(nsList) {
   let totalNs: number = 0;
 
   nsList.map(
-    (item: nsItem, index: number) => (totalNs = Number(item.price) + totalNs)
+    (item: nsItem, index: number) => (totalNs += Number(getNSPrice(item)))
   );
   return totalNs.toFixed(2);
 }
@@ -106,13 +110,18 @@ export function getFileSharePrice(fileShareGb: number) {
   return (prices.fileShare * fileShareGb).toFixed(2);
 }
 
-export function getVmPrice(item) {
+export function getJumpServerPrice(jumpServer: number) {
+  return (prices.jumpServer * jumpServer).toFixed(2);
+}
+
+export function getVmItemPrice(item) {
   let total: number = 0;
   total =
     total +
-    Number(getOsPrice(item.os, item.item, item.qty)) +
+    Number(getVmPrice(item.os, item.item, item.qty)) +
+    Number(getOsLicensePrice(item.os, item.item, item.qty)) +
     Number(getBackupPrice(item.storage, item.qty, item.backup)) +
-    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery))+
+    Number(getDRecoveryPrice(item.qty, item.storage, item.recovery)) +
     Number(getStoragePrice(item.storage));
   return total.toFixed(2);
 }
@@ -125,6 +134,27 @@ export function getNSPrice(item) {
     Number(getLodBAndWafPrice(item.loadBAndWaf)) +
     Number(getNetBandwithPrice(item.netBandwithGb)) +
     Number(getArchivePrice(item.archiveGb)) +
-    Number(getFileSharePrice(item.fileShareGb));
+    Number(getFileSharePrice(item.fileShareGb)) +
+    Number(getJumpServerPrice(item.jumpServer));
   return total.toFixed(2);
+}
+
+export function getMembershipFees(env, vmList) {
+  let qty: number = 0;
+  let fee: number = 0;
+  vmList.map((item: vmItem, index: number) => (qty += Number(item.qty)));
+  let tmp =
+    Number(env.number) *
+    Number(env.utilization)/100 *
+    (prices.computePrice + prices.envLicense);
+  fee = (qty * prices.endPointPrice + tmp)/12;
+  if (qty == 0) {
+    return 0;
+  } else {
+    return fee;
+  }
+}
+
+export function numberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     // verticalAlign: 'ceter',
     fontWeight: 'bold',
     fontSize: 30,
-    color: 'green',
   },
   logo:{
     height:70,

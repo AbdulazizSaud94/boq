@@ -9,8 +9,7 @@ import {
   TouchableHighlight,
   Alert,
   Platform,
-  Switch,
-  Slider
+  Switch
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Container, Header, Content, Form } from "native-base";
@@ -27,40 +26,37 @@ const osList = {
   Docker: "Docker Instance"
 };
 
-// const itemList={
-//   GP-Nano: "GP-Nano (1 vCPU, 0.5 GB Memory)",
 
-// }
 
-const addVm = ({ submitVm, vmList, prices }) => {
+const addVm = ({ submitVm, vmList, submitEnv, env, prices }) => {
   const [os, setOs] = useState("CentOS");
   const [item, setItem] = useState("GP_Large");
   const [backup, setBackup] = useState("Daily");
   const [recovery, setRecovery] = useState("Yes");
   const [qty, setQty] = useState(1);
   const [storage, setStorage] = useState(32);
-
-  const calculatePrice = () => {
-    let fRecovery: number = 0;
-    let fVmPrice: number = prices[os + item];
-    let fStorage: number = storage * prices.storage;
-    let fBackup: number = prices["backup" + backup];
-    if (recovery === "Yes") {
-      fRecovery += prices.disasterRecovery;
-    }
-    let totalPrice: number = (fVmPrice * qty).toFixed(2);
-    return totalPrice;
-  };
+  const [environment, setEnvironment] = useState(env.number);
+  const [utilization, setUtilization] = useState(env.utilization);
 
   const validateAndSubmit = () => {
     let quantity: number = parseInt(qty, 10);
     let gbStorage: number = parseInt(storage, 10);
+    let envs: number = parseInt(environment, 10);
+    let utilizations: number = parseInt(utilization, 10);
     //check quantity field
     if (qty > 0 && Number.isInteger(quantity)) {
       //Check storage field
       if (storage >= 32 && Number.isInteger(gbStorage)) {
-        let price: number = calculatePrice();
-        submitVm(item, os, backup, recovery, quantity, gbStorage, price);
+        if (environment >= 0 && Number.isInteger(envs)) {
+          if (utilization >= 0 && Number.isInteger(utilizations)) {
+            submitVm(item, os, backup, recovery, quantity, gbStorage);
+            submitEnv(environment, utilization);
+          } else {
+            alert("Please enter a valid Enviromet utilization");
+          }
+        } else {
+          alert("Please enter a valid Enviromet number");
+        }
       } else {
         alert("Please enter a valid storage");
       }
@@ -181,6 +177,32 @@ const addVm = ({ submitVm, vmList, prices }) => {
             </View>
           </View>
         </View>
+        <View style={styles.row1}>
+          <View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Text style={styles.subtitle}># Environments:</Text>
+              <TextInput
+                style={styles.textField}
+                onChangeText={setEnvironment}
+                value={environment}
+              />
+            </View>
+          </View>
+          <View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Text style={styles.subtitle}>Utilization:</Text>
+              <TextInput
+                style={styles.textField}
+                onChangeText={setUtilization}
+                value={utilization}
+              />
+              <Text style={styles.unit}> %</Text>
+            </View>
+          </View>
+          <View>
+            <View style={{ flex: 1, flexDirection: "row" }}></View>
+          </View>
+        </View>
         <View style={{ flex: 1, flexDirection: "row-reverse", marginTop: 15 }}>
           <View style={styles.btn}>
             <Button
@@ -205,6 +227,9 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     marginBottom: 15
   },
+  elem: {
+    paddingLeft: 120
+  },
   btn: {
     width: 100,
     height: 25,
@@ -226,6 +251,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 20
+  },
+  row1: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 40
   },
   col: {
     marginTop: 0
